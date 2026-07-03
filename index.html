@@ -2,92 +2,55 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>GOA PINAL CHART | Fast Results</title>
     <style>
-        :root{ --bg:#090b14; --card:#111827; --gold:#FFD700; --gold2:#ffb700; --red:#ff3b3b; --text:#ffffff; }
-        *{ margin:0; padding:0; box-sizing:border-box; font-family:Segoe UI,Tahoma,sans-serif; }
-        body{ background: radial-gradient(circle at top,#182542,#090b14 70%); color:var(--text); overflow-x:hidden; padding-bottom:50px; }
+        :root { 
+            --bg-color: #0d0d0d; 
+            --card-bg: #1a1a1a; 
+            --gold: #FFD700; 
+            --vip-red: #ff3e3e; 
+            --text-color: #ffffff;
+            --border-color: #333;
+        }
 
-        .header{ background:linear-gradient(90deg,#000,#181818,#000); border-bottom:3px solid var(--gold); padding:18px; box-shadow:0 0 25px rgba(255,215,0,.25); text-align:center; }
-        .header h1{ color:var(--gold); font-size:34px; letter-spacing:2px; text-shadow:0 0 20px gold; }
-
-        .special-note{ width:92%; margin:20px auto; background:rgba(255,255,255,.05); backdrop-filter:blur(12px); border:1px solid rgba(255,215,0,.3); border-left:5px solid gold; border-radius:15px; padding:18px; color:#fff; box-shadow:0 0 20px rgba(255,215,0,.1); }
-
-        .btn-pay-main, .nav-btn{ background:linear-gradient(135deg,#FFD700,#ffb300); color:#000; font-weight:bold; border:none; border-radius:50px; padding:14px 30px; cursor:pointer; transition:.3s; box-shadow:0 10px 25px rgba(255,215,0,.35); display:block; margin:15px auto; width:90%; text-align:center; }
-        .btn-pay-main:hover{ transform:translateY(-3px); box-shadow:0 15px 35px rgba(255,215,0,.55); }
-
-        #chartWrapper{ width:95%; margin:25px auto; background:#111; border:2px solid gold; border-radius:18px; overflow:auto; box-shadow:0 0 30px rgba(255,215,0,.25); }
-        table{ width:100%; border-collapse:collapse; }
-        th{ background:linear-gradient(#FFD700,#d99b00); color:#000; font-size:14px; padding:12px; }
-        td{ background:#101010; border:1px solid #444; height:70px; text-align:center; transition:.3s; }
-        td:hover{ background:#1c1c1c; }
-        .date-box{ background:#222!important; color:gold; font-weight:bold; }
-        .jodi{ font-size:28px; font-weight:900; color:white; }
-        .red-house .jodi{ color:#ff3b3b; }
-        .panna-vertical{ font-size:10px; color:gold; font-weight:bold; display:flex; flex-direction:column; align-items:center; }
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding-bottom: 50px; 
+        }
         
-        .overlay{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.88); backdrop-filter:blur(10px); z-index:1000; align-items:center; justify-content:center; }
-        .modal-content{ background:#111827; width:90%; max-width:350px; padding:20px; border-radius:18px; border:2px solid gold; color:#fff; }
-        .sub-option{ background:#1a1f2d; border:2px solid #333; border-radius:15px; padding:15px; margin:10px 0; cursor:pointer; transition:.3s; }
-        .sub-option.active{ background:#2c2200; border-color:gold; }
-        .sub-price{ color:gold; font-size:32px; font-weight:bold; display:block; }
-        input{ width:100%; padding:14px; margin:10px 0; border:1px solid #444; background:#1c2233; color:#fff; border-radius:10px; }
+        .header { background: #000; padding: 20px; border-bottom: 3px solid var(--gold); }
+        .header h1 { margin: 0; font-size: 24px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+
+        .special-note { background: var(--card-bg); padding: 15px; margin: 15px auto; width: 90%; border-left: 5px solid var(--gold); border-radius: 8px; text-align: left; }
+        .special-note p { font-size: 14px; color: #ccc; }
+
+        .nav-btn { background: var(--gold); color: #000; border: none; border-radius: 20px; padding: 10px 20px; font-weight: bold; cursor: pointer; margin: 10px 0; }
+
+        #chartWrapper { width: 95%; margin: 20px auto; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; overflow-x: auto; padding: 5px; }
+        table { border-collapse: collapse; width: 100%; min-width: 300px; }
+        th { background: var(--gold); color: #000; font-size: 12px; padding: 10px; border: 1px solid #000; }
+        td { border: 1px solid #333; height: 60px; background: #111; vertical-align: middle; text-align: center; }
         
-        @media(max-width:768px){ .header h1{ font-size:22px; } .jodi{ font-size:22px; } th{ font-size:11px; } td{ height:55px; } }
+        .date-box { background: #222 !important; color: var(--gold); font-weight: bold; font-size: 11px; }
+        .jodi { font-size: 20px; font-weight: 900; color: #fff; }
+        .red-house .jodi, .red-house .panna-vertical { color: var(--vip-red) !important; }
+        
+        .btn-pay-main { background: var(--vip-red); color: white; padding: 15px; border: none; border-radius: 8px; width: 90%; font-weight: bold; font-size: 16px; margin: 20px 0; cursor: pointer; }
+
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); width: 90%; max-width: 350px; padding: 20px; border-radius: 15px; border: 1px solid var(--gold); }
+        
+        .sub-option { border: 2px solid #333; border-radius: 10px; padding: 15px; margin: 10px 0; cursor: pointer; background: #000; }
+        .sub-option.active { border-color: var(--gold); background: #221e00; }
+        .sub-price { color: var(--gold); font-weight: 900; font-size: 22px; display: block; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #555; border-radius: 5px; background: #000; color: #fff; box-sizing: border-box; }
     </style>
 </head>
 <body>
-
-<div class="header"><h1>GOA PINAL CHART</h1></div>
-
-<div class="special-note">
-    <p><strong>विशेष सूचना:</strong> सबसे भरोसेमंद और सटीक रिजल्ट्स के लिए यहाँ बने रहें।</p>
-</div>
-
-<div id="chartWrapper">
-    <table>
-        <thead><tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
-        <tbody id="gridData"></tbody>
-    </table>
-</div>
-
-<button class="btn-pay-main" onclick="openVipModal()">JOIN VIP / लॉक खोलें 🔑</button>
-
-<div id="vipModal" class="overlay">
-    <div class="modal-content">
-        <h3>पंजीकरण (Registration)</h3>
-        <input type="text" id="vName" placeholder="अपना नाम लिखें">
-        <input type="number" id="vPhone" placeholder="मोबाइल नंबर">
-        <button class="btn-pay-main" style="width:100%" onclick="closeVipModal()">आगे बढ़ें</button>
-    </div>
-</div>
-
-<script>
-    const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
-    
-    function openVipModal() { document.getElementById('vipModal').style.display='flex'; }
-    function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
-
-    async function loadChart() {
-        try {
-            const res = await fetch(CSV + "&cache=" + Date.now());
-            const data = await res.text();
-            const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
-            let html = '';
-            for(let i=1; i<rows.length; i++) {
-                let d = (rows[i][0] || "").trim();
-                html += `<tr><td class="date-box">${d}</td>`;
-                for(let j=1; j<=16; j+=3) {
-                    let lp=(rows[i][j]||"").trim(), jd=(rows[i][j+1]||"").trim(), rp=(rows[i][j+2]||"").trim();
-                    html += `<td><div class="panna-vertical">${lp}</div><div class="jodi">${jd}</div><div class="panna-vertical">${rp}</div></td>`;
-                }
-                html += `</tr>`;
-            }
-            document.getElementById('gridData').innerHTML = html;
-        } catch(e) { console.log(e); }
-    }
-    window.onload = loadChart;
-</script>
-</body>
+    </body>
 </html>
