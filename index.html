@@ -4,8 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     
+    <!-- SEO & Search Optimization -->
     <title>GOA PINAL CHART | GOA PINAL CHART - Fast Results</title>
+    <meta name="description" content="GOA PINAL CHART और GOA PINAL CHART पर सबसे तेज़ और सटीक सट्टा मटका चार्ट रिजल्ट्स देखें। आज का वीआईपी गेम पाने के लिए अभी विजिट करें।">
+    <meta name="keywords" content="Goa Pinal Chart, Goa pinal Chart, Satta Matka, Matka Results, VIP Chart, Fast Matka Update">
+    <link rel="canonical" href="https://goapinalchart.com/">
     
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="GOA PINAL CHART - GOA PINAL CHART">
+    <meta property="og:description" content="सबसे भरोसेमंद और सटीक सट्टा मटका चार्ट।">
+    <meta property="og:url" content="https://goapinalchart.com/">
+
     <style>
         :root { --dark-blue: #1a024d; --gold: #FFD700; --vip-red: #e31e24; --grid-border: #000; }
         body { background: #FFBF82; color: var(--dark-blue); font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 50px; overflow-x: hidden; }
@@ -74,15 +83,134 @@
 
 <button class="btn-pay-main" onclick="openVipModal()">JOIN VIP / लॉक खोलें 🔑</button>
 
-<!-- Modal और बाकी स्क्रिप्ट पहले जैसी ही रहेगी -->
 <div id="vipModal" class="overlay">
     <div class="modal-content">
-        <!-- (आपका पुराना मोडल कंटेंट यहाँ आएगा) -->
+        <div id="step1">
+            <h3>Registration / पंजीकरण</h3>
+            <input type="text" id="vName" placeholder="अपना नाम लिखें">
+            <input type="number" id="vPhone" placeholder="मोबाइल नंबर">
+            <button class="btn-pay-main" style="width:100%;" onclick="goSub()">NEXT / आगे बढ़ें</button>
+            <p onclick="closeVipModal()" style="color:red; cursor:pointer; font-size:12px; margin-top:10px;">बंद करें (Close)</p>
+        </div>
+
+        <div id="step-sub" style="display:none;">
+            <h3>Select Plan / प्लान चुनें</h3>
+            <div class="sub-option" onclick="selectPlan(this, '1 Day VIP - ₹899')">
+                <span class="sub-title-hi">1 दिन के लिए लॉक खोलें</span>
+                <span class="sub-price">₹899</span>
+            </div>
+            <div class="sub-option" onclick="selectPlan(this, '5 Days VIP - ₹1799')">
+                <span class="sub-title-hi">5 दिनों के लिए लॉक खोलें</span>
+                <span class="sub-price">₹1799</span>
+            </div>
+            <button class="btn-pay-main" style="width:100%;" onclick="goPay()">NEXT / आगे बढ़ें</button>
+        </div>
+
+        <div id="step2" style="display:none;">
+            <h3>Payment / भुगतान</h3>
+            <p id="planDisp" style="color:red; font-weight:bold;"></p>
+            <p>Payee Name: <b>TIKARAM KHANDE</b></p>
+            <img src="paytm-png.jpeg" class="qr-img" alt="QR Code">
+            <input type="number" id="utrVal" placeholder="Enter 12 Digit UTR Number">
+            <button class="btn-pay-main" style="width:100%;" onclick="verify()">VERIFY PAYMENT</button>
+        </div>
+
+        <div id="step3" style="display:none;">
+            <h3>Verifying...</h3>
+            <div id="timerBox" style="font-size:40px; color:red; font-weight:bold;">02:00</div>
+        </div>
+
+        <div id="step4" style="display:none;">
+            <h2 style="color:green;">SUCCESS / सफल ✅</h2>
+            <button class="btn-pay-main" onclick="closeVipModal()">CLOSE</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // (आपकी पुरानी JavaScript यहाँ आएगी)
+    const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
+    let chosenPlan = "";
+
+    function openVipModal() { document.getElementById('vipModal').style.display='flex'; resetModal(); }
+    function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
+    function resetModal() {
+        document.getElementById('step1').style.display='block';
+        ['step-sub','step2','step3','step4'].forEach(id => document.getElementById(id).style.display='none');
+    }
+
+    function goSub() {
+        if(!document.getElementById('vName').value || document.getElementById('vPhone').value.length < 10) return alert("सही जानकारी भरें");
+        document.getElementById('step1').style.display='none';
+        document.getElementById('step-sub').style.display='block';
+    }
+
+    function selectPlan(el, p) {
+        document.querySelectorAll('.sub-option').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        chosenPlan = p;
+    }
+
+    function goPay() {
+        if(!chosenPlan) return alert("कृपया प्लान चुनें");
+        document.getElementById('planDisp').innerText = "Selected: " + chosenPlan;
+        document.getElementById('step-sub').style.display='none';
+        document.getElementById('step2').style.display='block';
+    }
+
+    function verify() {
+        if(document.getElementById('utrVal').value.length < 10) return alert("UTR सही लिखें");
+        document.getElementById('step2').style.display='none';
+        document.getElementById('step3').style.display='block';
+        startTimer();
+    }
+
+    function startTimer() {
+        let t = 120;
+        let x = setInterval(() => {
+            let m=Math.floor(t/60), s=t%60;
+            document.getElementById('timerBox').innerText = `0${m}:${s<10?'0'+s:s}`;
+            if(t-- <= 0) { 
+                clearInterval(x); 
+                document.getElementById('step3').style.display='none'; 
+                document.getElementById('step4').style.display='block'; 
+            }
+        }, 1000);
+    }
+
+    async function loadChart() {
+        try {
+            const res = await fetch(CSV + "&cache=" + Date.now());
+            const data = await res.text();
+            const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
+            let html = '', lockShown = false;
+            for(let i=1; i<rows.length; i++) {
+                let d = (rows[i][0] || "").trim(); if(!d) continue;
+                html += `<tr><td class="date-box">${d}</td>`;
+                for(let j=1; j<=16; j+=3) {
+                    let lp=(rows[i][j]||"").trim(), jd=(rows[i][j+1]||"").trim(), rp=(rows[i][j+2]||"").trim();
+                    if(!jd && !lp) {
+                        if(!lockShown) { 
+                            html += `<td onclick="openVipModal()"><span class="lock-btn">🔒</span></td>`; 
+                            lockShown = true; 
+                        }
+                        else html += `<td></td>`;
+                    } else {
+                        let isRed = (jd.length==2 && (jd[0]==jd[1] || Math.abs(jd[0]-jd[1])==5));
+                        html += `<td class="${isRed?'red-house':''}">
+                            <div class="cell-content">
+                                <div class="panna-vertical">${lp.split('').map(n=>`<span>${n}</span>`).join('')}</div>
+                                <div class="jodi">${jd}</div>
+                                <div class="panna-vertical">${rp.split('').map(n=>`<span>${n}</span>`).join('')}</div>
+                            </div>
+                        </td>`;
+                    }
+                }
+                html += `</tr>`;
+            }
+            document.getElementById('gridData').innerHTML = html;
+        } catch(e) { console.log(e); }
+    }
+    window.onload = loadChart;
 </script>
 </body>
 </html>
