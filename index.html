@@ -6,78 +6,66 @@
     <title>BOMBAY SPECIAL VIP CHART</title>
     <style>
         :root { --dark-blue: #1a024d; --gold: #FFD700; --vip-red: #e31e24; --grid-border: #000; }
-        body { background: #FFBF82; color: var(--dark-blue); font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 50px; overflow-x: hidden; }
+        body { background: #FFBF82; color: var(--dark-blue); font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 50px; }
         
-        .header { background: var(--dark-blue); padding: 10px; border-bottom: 3px solid var(--gold); }
+        .header { background: var(--dark-blue); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 18px; color: var(--gold); text-transform: uppercase; }
 
-        .special-note { background: #fff; padding: 12px; margin: 10px auto; width: 90%; border-left: 5px solid var(--vip-red); border-radius: 4px; text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.1); box-sizing: border-box; }
-        .special-note p { margin: 0; font-size: 13px; color: #333; line-height: 1.5; }
-
-        .nav-btn { background: var(--vip-red); color: white; border: 1.5px solid #fff; border-radius: 20px; padding: 8px 20px; display: inline-block; font-size: 12px; margin: 10px 0; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-
-        #chartWrapper { width: 90%; margin: 10px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
-        table { border-collapse: collapse; width: 100%; min-width: 300px; table-layout: fixed; }
-        th { background: #ffff00; color: #000; font-size: 10px; padding: 6px 0; border: 1px solid var(--grid-border); }
-        td { border: 1px solid var(--grid-border); height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; }
+        #chartWrapper { width: 90%; margin: 20px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; min-width: 300px; }
+        th { background: #ffff00; color: #000; font-size: 10px; padding: 6px; border: 1px solid #000; }
+        td { border: 1px solid #000; height: 50px; background: #fff; text-align: center; }
         
-        .date-box { background: #f0f0f0 !important; font-size: 9px; font-weight: bold; width: 45px !important; }
-        .jodi { font-size: 18px; font-weight: 900; color: #000; margin: 0 4px; }
+        .btn-pay-main { background: var(--vip-red); color: white; padding: 15px; border: none; border-radius: 6px; width: 90%; font-weight: bold; font-size: 16px; margin: 20px 0; cursor: pointer; }
         
-        .btn-pay-main { background: var(--vip-red); color: white; padding: 12px; border: none; border-radius: 6px; width: 90%; font-weight: bold; font-size: 16px; margin: 10px 0; cursor: pointer; }
-
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center; }
-        .modal-content { background: #fff; width: 90%; max-width: 350px; padding: 20px; border-radius: 10px; box-sizing: border-box; }
+        /* Modal Style */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #fff; width: 90%; max-width: 350px; padding: 20px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>BOMBAY SPECIAL VIP CHART</h1></div>
 
-<div class="special-note">
-    <p><strong>विशेष सूचना:</strong> सबसे भरोसेमंद और सटीक जानकारी के लिए <b>BIG STAR PINAL CHART</b> और <b>BOMBAY SPECIAL VIP CHART</b> ही चुनें।</p>
-</div>
-
 <div id="chartWrapper">
     <table>
-        <thead>
-            <tr>
-                <th style="width:45px;">DATE</th>
-                <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
-            </tr>
-        </thead>
-        <tbody id="gridData"></tbody>
+        <thead><tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
+        <tbody id="gridData"><tr><td colspan="7">Loading...</td></tr></tbody>
     </table>
 </div>
 
-<button class="btn-pay-main" onclick="document.getElementById('vipModal').style.display='flex'">JOIN VIP / लॉक खोलें 🔑</button>
+<button class="btn-pay-main" onclick="openVipModal()">JOIN VIP / लॉक खोलें 🔑</button>
 
 <div id="vipModal" class="overlay">
     <div class="modal-content">
         <h3>Registration</h3>
-        <input type="text" placeholder="अपना नाम लिखें" style="width:100%; padding:10px; margin:10px 0;">
-        <button class="btn-pay-main" style="width:100%" onclick="document.getElementById('vipModal').style.display='none'">CLOSE</button>
+        <input type="text" placeholder="अपना नाम" style="width:90%; padding:10px; margin:10px 0;">
+        <button class="btn-pay-main" style="width:100%" onclick="closeVipModal()">CLOSE</button>
     </div>
 </div>
 
 <script>
     const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
     
+    function openVipModal() { document.getElementById('vipModal').style.display='flex'; }
+    function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
+
     async function loadChart() {
         try {
             const res = await fetch(CSV + "?cache=" + Date.now());
             const data = await res.text();
             const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
             let html = '';
+            // i=1 से शुरू करें ताकि हेडर न बदले
             for(let i=1; i<rows.length; i++) {
-                html += `<tr><td class="date-box">${rows[i][0] || ""}</td>`;
+                html += `<tr><td>${rows[i][0] || ""}</td>`;
                 for(let j=1; j<=6; j++) {
-                    html += `<td><div class="jodi">${rows[i][j] || ""}</div></td>`;
+                    html += `<td>${rows[i][j] || ""}</td>`;
                 }
                 html += `</tr>`;
             }
             document.getElementById('gridData').innerHTML = html;
-        } catch(e) { console.error("Error loading data:", e); }
+        } catch(e) { console.error(e); }
     }
     window.onload = loadChart;
 </script>
