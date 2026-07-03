@@ -2,68 +2,51 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOA PINAL CHART</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>BOMBAY SPECIAL VIP CHART | Fast Results</title>
     <style>
-        /* साफ़ और स्पष्ट थीम */
+        /* प्रीमियम कलर्स */
+        :root { 
+            --bg-body: #f4f4f9; 
+            --header-dark: #1a024d; 
+            --gold: #FFD700; 
+            --vip-red: #e31e24; 
+            --white: #ffffff;
+        }
+
         body { 
-            background-color: #ffffff !important; 
-            color: #000000 !important; 
-            font-family: Arial, sans-serif; 
+            background: var(--bg-body); 
+            color: #333; 
+            font-family: 'Arial', sans-serif; 
             text-align: center; 
             margin: 0; 
-            padding: 10px;
+            padding-bottom: 50px; 
         }
-
-        .header { background-color: #1a024d; color: #FFD700; padding: 20px; border-radius: 10px; }
         
-        #chartWrapper { 
-            width: 100%; 
-            margin: 20px auto; 
-            overflow-x: auto; 
-            border: 2px solid #000; 
-        }
+        /* हेडर को साफ रखा है */
+        .header { background: var(--header-dark); padding: 15px; border-bottom: 4px solid var(--gold); }
+        .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; }
 
-        table { width: 100%; border-collapse: collapse; background: #fff; }
-        th { background: #FFD700; color: #000; padding: 10px; border: 1px solid #000; }
-        td { border: 1px solid #000; height: 50px; text-align: center; }
+        .special-note { background: var(--white); padding: 15px; margin: 15px auto; width: 90%; border-left: 5px solid var(--vip-red); border-radius: 6px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        .nav-btn { background: var(--vip-red); color: white; border-radius: 20px; padding: 8px 18px; display: inline-block; font-size: 13px; margin: 5px; cursor: pointer; font-weight: bold; }
 
-        .btn-pay-main { 
-            background-color: #e31e24; 
-            color: #ffffff; 
-            padding: 15px 30px; 
-            border: none; 
-            border-radius: 5px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            margin-top: 20px;
-        }
+        #chartWrapper { width: 95%; margin: 15px auto; background: var(--white); border: 1px solid #ccc; overflow-x: auto; border-radius: 4px; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background: var(--gold); color: #000; font-size: 11px; padding: 8px; border: 1px solid #333; }
+        td { border: 1px solid #ddd; height: 55px; background: var(--white); vertical-align: middle; }
+        
+        .date-box { background: #f9f9f9 !important; font-size: 10px; font-weight: bold; }
+        .jodi { font-size: 18px; font-weight: 900; color: #000; }
+        .red-house .jodi, .red-house .panna-vertical { color: var(--vip-red) !important; }
+        
+        .btn-pay-main { background: var(--vip-red); color: white; padding: 14px; border: none; border-radius: 8px; width: 90%; font-weight: bold; font-size: 16px; margin: 15px 0; cursor: pointer; }
+        
+        /* बाकी सब स्ट्रक्चर पहले जैसा ही है */
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>GOA PINAL CHART</h1>
-    </div>
-
-    <div id="chartWrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>DATE</th>
-                    <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
-                </tr>
-            </thead>
-            <tbody id="gridData">
-                <tr>
-                    <td>03-07</td>
-                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <button class="btn-pay-main" onclick="alert('VIP सेक्शन')">JOIN VIP / लॉक खोलें</button>
-
-</body>
+    <div class="header"><h1>BOMBAY SPECIAL VIP CHART</h1></div>
+    
+    </body>
 </html>
