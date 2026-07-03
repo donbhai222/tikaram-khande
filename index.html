@@ -22,24 +22,12 @@
         td { border: 1px solid var(--grid-border); height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; }
         
         .date-box { background: #f0f0f0 !important; font-size: 9px; font-weight: bold; width: 45px !important; }
-        .cell-content { display: flex; align-items: center; justify-content: center; width: 100%; }
-        .panna-vertical { display: flex; flex-direction: column; font-size: 8px; line-height: 0.9; width: 10px; font-weight: bold; }
         .jodi { font-size: 18px; font-weight: 900; color: #000; margin: 0 4px; }
-        .red-house .jodi, .red-house .panna-vertical { color: var(--vip-red) !important; }
-        .lock-btn { color: var(--vip-red); font-size: 18px; cursor: pointer; }
-
+        
         .btn-pay-main { background: var(--vip-red); color: white; padding: 12px; border: none; border-radius: 6px; width: 90%; font-weight: bold; font-size: 16px; margin: 10px 0; cursor: pointer; }
 
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; width: 90%; max-width: 350px; padding: 20px; border-radius: 10px; box-sizing: border-box; }
-        
-        .sub-option { border: 2px solid #ddd; border-radius: 8px; padding: 15px; margin: 10px 0; cursor: pointer; background: #fafafa; text-align: center; }
-        .sub-option.active { border-color: var(--vip-red); background: #fff0f0; }
-        .sub-title-hi { font-size: 15px; color: #333; display: block; font-weight: bold; }
-        .sub-price { color: var(--vip-red); font-weight: 900; font-size: 24px; display: block; }
-
-        .qr-img { width: 200px; height: auto; border: 2px solid #000; margin: 10px auto; display: block; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -49,8 +37,6 @@
 <div class="special-note">
     <p><strong>विशेष सूचना:</strong> सबसे भरोसेमंद और सटीक जानकारी के लिए <b>BIG STAR PINAL CHART</b> और <b>BOMBAY SPECIAL VIP CHART</b> ही चुनें।</p>
 </div>
-
-<div class="nav-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});">Go to Bottom ↓</div>
 
 <div id="chartWrapper">
     <table>
@@ -64,42 +50,34 @@
     </table>
 </div>
 
-<div class="nav-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Go to Top ↑</div>
-
-<button class="btn-pay-main" onclick="openVipModal()">JOIN VIP / लॉक खोलें 🔑</button>
+<button class="btn-pay-main" onclick="document.getElementById('vipModal').style.display='flex'">JOIN VIP / लॉक खोलें 🔑</button>
 
 <div id="vipModal" class="overlay">
     <div class="modal-content">
-        <h3>Registration / पंजीकरण</h3>
-        <input type="text" id="vName" placeholder="अपना नाम लिखें">
-        <input type="number" id="vPhone" placeholder="मोबाइल नंबर">
-        <button class="btn-pay-main" style="width:100%;" onclick="alert('Proceeding...')">NEXT</button>
+        <h3>Registration</h3>
+        <input type="text" placeholder="अपना नाम लिखें" style="width:100%; padding:10px; margin:10px 0;">
+        <button class="btn-pay-main" style="width:100%" onclick="document.getElementById('vipModal').style.display='none'">CLOSE</button>
     </div>
 </div>
 
 <script>
     const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
     
-    function openVipModal() { document.getElementById('vipModal').style.display='flex'; }
-    function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
-
     async function loadChart() {
         try {
-            const res = await fetch(CSV + "&cache=" + Date.now());
+            const res = await fetch(CSV + "?cache=" + Date.now());
             const data = await res.text();
             const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
             let html = '';
             for(let i=1; i<rows.length; i++) {
-                let d = (rows[i][0] || "").trim();
-                html += `<tr><td class="date-box">${d}</td>`;
-                for(let j=1; j<=16; j+=3) {
-                    let jd = (rows[i][j+1] || "").trim();
-                    html += `<td><div class="jodi">${jd}</div></td>`;
+                html += `<tr><td class="date-box">${rows[i][0] || ""}</td>`;
+                for(let j=1; j<=6; j++) {
+                    html += `<td><div class="jodi">${rows[i][j] || ""}</div></td>`;
                 }
                 html += `</tr>`;
             }
             document.getElementById('gridData').innerHTML = html;
-        } catch(e) { console.error(e); }
+        } catch(e) { console.error("Error loading data:", e); }
     }
     window.onload = loadChart;
 </script>
