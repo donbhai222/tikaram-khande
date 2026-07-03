@@ -2,80 +2,94 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    
-    <title>GOA PINAL CHART | Fast Results</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOA PINAL CHART | VIP Results</title>
     <style>
         :root {
-            --dark-color: #1a1a1a;
-            --main-red: #e62e2e;
+            --bg-black: #000000;
+            --card-bg: #111111;
             --gold: #FFD700;
-            --text-light: #ffffff;
-            --text-dark: #111111;
+            --red: #ff0000;
+            --white: #ffffff;
+            --border: #333333;
         }
 
-        body {
-            background: #2b2b2b;
-            color: var(--text-light);
-            font-family: 'Arial Black', Gadget, sans-serif;
+        body { 
+            background: var(--bg-black); 
+            color: var(--white); 
+            font-family: 'Arial Black', sans-serif; 
+            margin: 0; 
+            padding-bottom: 50px; 
             text-align: center;
-            margin: 0;
-            padding-bottom: 50px;
-            overflow-x: hidden;
         }
         
-        .header { background: var(--dark-color); padding: 15px; border-bottom: 4px solid var(--gold); }
-        .header h1 { margin: 0; font-size: 24px; color: var(--gold); text-transform: uppercase; font-weight: 900; }
+        .header { 
+            background: linear-gradient(to bottom, #222, #000); 
+            padding: 20px; 
+            border-bottom: 4px solid var(--gold); 
+        }
+        .header h1 { 
+            color: var(--gold); 
+            margin: 0; 
+            font-size: 26px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
 
-        .special-note { background: var(--dark-color); padding: 15px; margin: 15px auto; width: 90%; border-left: 6px solid var(--main-red); border-radius: 6px; text-align: left; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .special-note p { margin: 0; font-size: 15px; color: var(--text-light); line-height: 1.6; font-weight: 700; }
-        .special-note strong { color: var(--main-red); }
-
-        .nav-btn { background: var(--main-red); color: var(--text-light); border: 2px solid var(--text-light); border-radius: 30px; padding: 10px 25px; display: inline-block; font-size: 14px; margin: 12px 0; font-weight: 900; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.4); text-transform: uppercase; }
-
-        #chartWrapper { width: 90%; margin: 15px auto; background: var(--dark-color); border: 2px solid var(--gold); overflow-x: auto; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
-        table { border-collapse: collapse; width: 100%; min-width: 350px; table-layout: fixed; }
-        th { background: var(--main-red); color: var(--text-light); font-size: 12px; padding: 10px 0; border: 1px solid #000000; font-weight: 900; }
-        td { border: 1px solid #000000; height: 55px; background: var(--dark-color); vertical-align: middle; text-align: center; padding: 0; font-weight: 700; }
+        #chartWrapper { 
+            width: 95%; 
+            margin: 20px auto; 
+            background: var(--card-bg); 
+            border: 2px solid var(--gold); 
+            padding: 5px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+        }
         
-        .date-box { background: #333333 !important; color: var(--text-light); font-size: 11px; font-weight: 800; width: 50px !important; }
-        .cell-content { display: flex; align-items: center; justify-content: center; width: 100%; color: var(--text-light); }
-        .panna-vertical { display: flex; flex-direction: column; font-size: 10px; line-height: 1; width: 12px; font-weight: bold; color: #cccccc; }
-        .jodi { font-size: 22px; font-weight: 900; color: var(--gold); margin: 0 6px; }
-        .red-house .jodi, .red-house .panna-vertical { color: var(--main-red) !important; }
-        .lock-btn { color: var(--main-red); font-size: 24px; cursor: pointer; }
-
-        .btn-pay-main { background: var(--main-red); color: var(--text-light); padding: 15px; border: none; border-radius: 8px; width: 90%; font-weight: 900; font-size: 18px; margin: 15px 0; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.4); text-transform: uppercase; }
-
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; }
-        .modal-content { background: var(--dark-color); color: var(--text-light); width: 90%; max-width: 380px; padding: 25px; border-radius: 12px; box-sizing: border-box; border: 2px solid var(--main-red); }
+        table { width: 100%; border-collapse: collapse; min-width: 350px; }
+        th { 
+            background: var(--gold); 
+            color: #000; 
+            padding: 12px 5px; 
+            font-size: 12px; 
+            border: 1px solid #000; 
+        }
+        td { 
+            border: 1px solid var(--border); 
+            height: 50px; 
+            text-align: center; 
+            background: var(--card-bg); 
+        }
         
-        .sub-option { border: 2px solid #444444; border-radius: 8px; padding: 20px; margin: 15px 0; cursor: pointer; background: #2b2b2b; text-align: center; }
-        .sub-option.active { border-color: var(--main-red); background: #330000; }
-        .sub-title-hi { font-size: 16px; color: var(--text-light); display: block; font-weight: 700; }
-        .sub-price { color: var(--gold); font-weight: 900; font-size: 28px; display: block; margin-top: 5px; }
-        .qr-img { width: 220px; height: auto; border: 3px solid var(--text-light); margin: 15px auto; display: block; }
-        input { width: 100%; padding: 15px; margin: 12px 0; border: 2px solid #444444; border-radius: 6px; box-sizing: border-box; background: #2b2b2b; color: var(--text-light); font-weight: bold; }
+        .jodi { color: var(--white); font-size: 20px; font-weight: 900; }
+        .red-house .jodi { color: var(--red); }
+        .date-box { background: #222 !important; color: var(--gold); font-size: 11px; }
+        
+        .btn-pay-main { 
+            background: linear-gradient(to bottom, #d4af37, #b8860b); 
+            color: #000; 
+            border: none; 
+            padding: 15px 40px; 
+            font-weight: 900; 
+            font-size: 18px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(255,215,0,0.3);
+        }
+
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #1a1a1a; width: 90%; max-width: 350px; padding: 20px; border-radius: 10px; border: 2px solid var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA PINAL CHART</h1></div>
 
-<div class="special-note">
-    <p><strong>विशेष सूचना:</strong> सबसे भरोसेमंद और सटीक जानकारी के लिए <b>GOA PINAL CHART</b> ही चुनें।</p>
-</div>
-
-<div class="nav-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});">Go to Bottom ↓</div>
-
 <div id="chartWrapper">
     <table>
         <thead>
-            <tr>
-                <th style="width:45px;">DATE</th>
-                <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
-            </tr>
+            <tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
         </thead>
         <tbody id="gridData"></tbody>
     </table>
@@ -85,47 +99,17 @@
 
 <div id="vipModal" class="overlay">
     <div class="modal-content">
-        <div id="step1">
-            <h3>Registration / पंजीकरण</h3>
-            <input type="text" id="vName" placeholder="अपना नाम लिखें">
-            <input type="number" id="vPhone" placeholder="मोबाइल नंबर">
-            <button class="btn-pay-main" style="width:100%;" onclick="goSub()">NEXT / आगे बढ़ें</button>
-        </div>
-        <div id="step-sub" style="display:none;">
-            <h3>Select Plan / प्लान चुनें</h3>
-            <div class="sub-option" onclick="selectPlan(this, '1 Day VIP - ₹899')">
-                <span class="sub-title-hi">1 दिन के लिए</span>
-                <span class="sub-price">₹899</span>
-            </div>
-            <div class="sub-option" onclick="selectPlan(this, '5 Days VIP - ₹1799')">
-                <span class="sub-title-hi">5 दिनों के लिए</span>
-                <span class="sub-price">₹1799</span>
-            </div>
-            <button class="btn-pay-main" style="width:100%;" onclick="goPay()">NEXT / आगे बढ़ें</button>
-        </div>
-        <div id="step2" style="display:none;">
-            <h3>Payment / भुगतान</h3>
-            <p id="planDisp" style="color:red; font-weight:bold;"></p>
-            <p>Payee: <b>TIKARAM KHANDE</b></p>
-            <img src="paytm-png.jpeg" class="qr-img" alt="QR Code">
-            <input type="number" id="utrVal" placeholder="Enter 12 Digit UTR Number">
-            <button class="btn-pay-main" style="width:100%;" onclick="verify()">VERIFY PAYMENT</button>
-        </div>
-        <div id="step3" style="display:none;"><h3>Verifying...</h3><div id="timerBox" style="font-size:40px; color:red; font-weight:bold;">02:00</div></div>
-        <div id="step4" style="display:none;"><h2 style="color:green;">SUCCESS ✅</h2><button class="btn-pay-main" onclick="closeVipModal()">CLOSE</button></div>
+        <h3 style="color:var(--gold);">Registration</h3>
+        <input type="text" id="vName" placeholder="अपना नाम लिखें" style="width:100%; padding:10px; margin:10px 0;">
+        <button class="btn-pay-main" style="width:100%;" onclick="closeVipModal()">CLOSE</button>
     </div>
 </div>
 
 <script>
     const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
-    let chosenPlan = "";
     function openVipModal() { document.getElementById('vipModal').style.display='flex'; }
     function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
-    function goSub() { document.getElementById('step1').style.display='none'; document.getElementById('step-sub').style.display='block'; }
-    function selectPlan(el, p) { document.querySelectorAll('.sub-option').forEach(x => x.classList.remove('active')); el.classList.add('active'); chosenPlan = p; }
-    function goPay() { if(!chosenPlan) return alert("Plan चुनें"); document.getElementById('planDisp').innerText = chosenPlan; document.getElementById('step-sub').style.display='none'; document.getElementById('step2').style.display='block'; }
-    function verify() { document.getElementById('step2').style.display='none'; document.getElementById('step3').style.display='block'; startTimer(); }
-    function startTimer() { let t=120; let x=setInterval(()=>{ let m=Math.floor(t/60), s=t%60; document.getElementById('timerBox').innerText=`0${m}:${s<10?'0'+s:s}`; if(t-- <=0){ clearInterval(x); document.getElementById('step3').style.display='none'; document.getElementById('step4').style.display='block'; } },1000); }
+    
     async function loadChart() {
         try {
             const res = await fetch(CSV + "&cache=" + Date.now());
@@ -133,12 +117,17 @@
             const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
             let html = '', lockShown = false;
             for(let i=1; i<rows.length; i++) {
-                let d = (rows[i][0] || "").trim(); if(!d) continue;
+                let d = (rows[i][0] || "").trim();
                 html += `<tr><td class="date-box">${d}</td>`;
                 for(let j=1; j<=16; j+=3) {
-                    let lp=(rows[i][j]||"").trim(), jd=(rows[i][j+1]||"").trim(), rp=(rows[i][j+2]||"").trim();
-                    if(!jd && !lp) { if(!lockShown) { html += `<td onclick="openVipModal()"><span class="lock-btn">🔒</span></td>`; lockShown = true; } else html += `<td></td>`; }
-                    else { let isRed = (jd.length==2 && (jd[0]==jd[1] || Math.abs(jd[0]-jd[1])==5)); html += `<td class="${isRed?'red-house':''}"><div class="cell-content"><div class="panna-vertical">${lp.split('').map(n=>`<span>${n}</span>`).join('')}</div><div class="jodi">${jd}</div><div class="panna-vertical">${rp.split('').map(n=>`<span>${n}</span>`).join('')}</div></div></td>`; }
+                    let jd=(rows[i][j+1]||"").trim();
+                    if(!jd) { 
+                        html += lockShown ? `<td></td>` : `<td onclick="openVipModal()">🔒</td>`;
+                        lockShown = true;
+                    } else {
+                        let isRed = (jd.length==2 && (jd[0]==jd[1] || Math.abs(jd[0]-jd[1])==5));
+                        html += `<td class="${isRed?'red-house':''}"><span class="jodi">${jd}</span></td>`;
+                    }
                 }
                 html += `</tr>`;
             }
