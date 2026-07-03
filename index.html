@@ -7,20 +7,21 @@
     <style>
         :root{ --bg:#090b14; --card:#111827; --gold:#FFD700; --gold2:#ffb700; --red:#ff3b3b; --text:#ffffff; }
         *{ margin:0; padding:0; box-sizing:border-box; font-family:Segoe UI,Tahoma,sans-serif; }
-        body{ background: radial-gradient(circle at top,#182542,#090b14 70%); color:var(--text); overflow-x:hidden; }
+        body{ background: radial-gradient(circle at top,#182542,#090b14 70%); color:var(--text); overflow-x:hidden; padding-bottom:50px; }
 
         .header{ background:linear-gradient(90deg,#000,#181818,#000); border-bottom:3px solid var(--gold); padding:18px; box-shadow:0 0 25px rgba(255,215,0,.25); text-align:center; }
         .header h1{ color:var(--gold); font-size:34px; letter-spacing:2px; text-shadow:0 0 20px gold; }
 
         .special-note{ width:92%; margin:20px auto; background:rgba(255,255,255,.05); backdrop-filter:blur(12px); border:1px solid rgba(255,215,0,.3); border-left:5px solid gold; border-radius:15px; padding:18px; color:#fff; box-shadow:0 0 20px rgba(255,215,0,.1); }
-        
-        .btn-pay-main{ background:linear-gradient(135deg,#FFD700,#ffb300); color:#000; font-weight:bold; border:none; border-radius:50px; padding:14px 30px; cursor:pointer; transition:.3s; box-shadow:0 10px 25px rgba(255,215,0,.35); width:90%; display:block; margin:20px auto; }
+
+        .btn-pay-main, .nav-btn{ background:linear-gradient(135deg,#FFD700,#ffb300); color:#000; font-weight:bold; border:none; border-radius:50px; padding:14px 30px; cursor:pointer; transition:.3s; box-shadow:0 10px 25px rgba(255,215,0,.35); display:block; margin:15px auto; width:90%; text-align:center; }
         .btn-pay-main:hover{ transform:translateY(-3px); box-shadow:0 15px 35px rgba(255,215,0,.55); }
 
         #chartWrapper{ width:95%; margin:25px auto; background:#111; border:2px solid gold; border-radius:18px; overflow:auto; box-shadow:0 0 30px rgba(255,215,0,.25); }
         table{ width:100%; border-collapse:collapse; }
         th{ background:linear-gradient(#FFD700,#d99b00); color:#000; font-size:14px; padding:12px; }
-        td{ background:#101010; border:1px solid #444; height:70px; text-align:center; }
+        td{ background:#101010; border:1px solid #444; height:70px; text-align:center; transition:.3s; }
+        td:hover{ background:#1c1c1c; }
         .date-box{ background:#222!important; color:gold; font-weight:bold; }
         .jodi{ font-size:28px; font-weight:900; color:white; }
         .red-house .jodi{ color:#ff3b3b; }
@@ -28,12 +29,12 @@
         
         .overlay{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.88); backdrop-filter:blur(10px); z-index:1000; align-items:center; justify-content:center; }
         .modal-content{ background:#111827; width:90%; max-width:350px; padding:20px; border-radius:18px; border:2px solid gold; color:#fff; }
-        .sub-option{ background:#1a1f2d; border:2px solid #333; border-radius:15px; padding:15px; margin:10px 0; cursor:pointer; }
+        .sub-option{ background:#1a1f2d; border:2px solid #333; border-radius:15px; padding:15px; margin:10px 0; cursor:pointer; transition:.3s; }
         .sub-option.active{ background:#2c2200; border-color:gold; }
         .sub-price{ color:gold; font-size:32px; font-weight:bold; display:block; }
         input{ width:100%; padding:14px; margin:10px 0; border:1px solid #444; background:#1c2233; color:#fff; border-radius:10px; }
         
-        @media(max-width:768px){ .header h1{ font-size:22px; } .jodi{ font-size:22px; } }
+        @media(max-width:768px){ .header h1{ font-size:22px; } .jodi{ font-size:22px; } th{ font-size:11px; } td{ height:55px; } }
     </style>
 </head>
 <body>
@@ -51,19 +52,42 @@
     </table>
 </div>
 
-<button class="btn-pay-main" onclick="document.getElementById('vipModal').style.display='flex'">JOIN VIP / लॉक खोलें 🔑</button>
+<button class="btn-pay-main" onclick="openVipModal()">JOIN VIP / लॉक खोलें 🔑</button>
 
 <div id="vipModal" class="overlay">
     <div class="modal-content">
         <h3>पंजीकरण (Registration)</h3>
-        <input type="text" placeholder="अपना नाम लिखें">
-        <input type="number" placeholder="मोबाइल नंबर">
-        <button class="btn-pay-main" onclick="document.getElementById('vipModal').style.display='none'">आगे बढ़ें</button>
+        <input type="text" id="vName" placeholder="अपना नाम लिखें">
+        <input type="number" id="vPhone" placeholder="मोबाइल नंबर">
+        <button class="btn-pay-main" style="width:100%" onclick="closeVipModal()">आगे बढ़ें</button>
     </div>
 </div>
 
 <script>
-    // आपका पुराना JavaScript यहाँ रहेगा
+    const CSV = "https://docs.google.com/spreadsheets/d/1IReRyQjRvWWVjZTym_8DDXvx9Jttjfgy18McY53gM5w/export?format=csv&gid=0";
+    
+    function openVipModal() { document.getElementById('vipModal').style.display='flex'; }
+    function closeVipModal() { document.getElementById('vipModal').style.display='none'; }
+
+    async function loadChart() {
+        try {
+            const res = await fetch(CSV + "&cache=" + Date.now());
+            const data = await res.text();
+            const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
+            let html = '';
+            for(let i=1; i<rows.length; i++) {
+                let d = (rows[i][0] || "").trim();
+                html += `<tr><td class="date-box">${d}</td>`;
+                for(let j=1; j<=16; j+=3) {
+                    let lp=(rows[i][j]||"").trim(), jd=(rows[i][j+1]||"").trim(), rp=(rows[i][j+2]||"").trim();
+                    html += `<td><div class="panna-vertical">${lp}</div><div class="jodi">${jd}</div><div class="panna-vertical">${rp}</div></td>`;
+                }
+                html += `</tr>`;
+            }
+            document.getElementById('gridData').innerHTML = html;
+        } catch(e) { console.log(e); }
+    }
+    window.onload = loadChart;
 </script>
 </body>
 </html>
