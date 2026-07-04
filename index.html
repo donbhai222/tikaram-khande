@@ -14,14 +14,18 @@
         .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
+        
+        .date-cell { width: 70px !important; font-size: 10px; font-weight: bold; background: #eee; line-height: 1.2; padding: 5px !important; }
         .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
-
+        
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
         .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
         .j-main { font-size: 18px; font-weight: 900; }
+        
+        .lock-cell { font-size: 25px; cursor: pointer; animation: flash 1.5s infinite; }
+        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
         .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
-        
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
         .btn-action { background:var(--dark-green); color:var(--gold); border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer; }
@@ -36,7 +40,7 @@
 
 <div class="chart-wrapper">
     <table class="vip-table">
-        <thead><tr><th style="width:50px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
+        <thead><tr><th style="width:70px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
         <tbody id="chartGrid"></tbody>
     </table>
 </div>
@@ -48,9 +52,10 @@
     <button class="btn-scroll" onclick="window.scrollTo(0,document.body.scrollHeight)">BOTTOM</button>
 </div>
 
+<!-- Modals -->
 <div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="name" placeholder="Naam" style="width:90%"><input id="phone" placeholder="Mobile" style="width:90%; margin:5px 0;"><button class="btn-action" onclick="showModal('m2')">Next</button></div></div>
 <div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹799 Plan</div><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹1599 Plan</div></div></div>
-<div id="m3" class="modal"><div class="modal-content"><h3>QR Scan</h3><div style="height:100px; background:#ddd; margin:10px; display:flex; align-items:center; justify-content:center;">QR CODE</div><input placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="closeAll()">Verify</button></div></div>
+<div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="utr" placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="startTimer()">Verify</button><div id="timerDisplay" style="margin-top:10px; font-weight:bold;"></div></div></div>
 
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
@@ -58,21 +63,33 @@
     fetch(URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '');
         let html = '';
+        
+        // Find last filled cell
+        let lastRow = 0, lastCol = 0;
         for(let i = 1; i < rows.length; i++) {
             let cols = rows[i].split(',');
-            html += `<tr><td style="background:#eee;">${cols[0].replace(/"/g, '')}</td>`;
             for(let j = 1; j <= 16; j += 3) {
-                let p1 = (cols[j] || "").replace(/"/g, '').split('');
-                let main = (cols[j+1] || "").replace(/"/g, '');
-                let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
-                
-                html += `<td>
-                    <div class="cell-wrap">
-                        <div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div>
-                        <div class="j-main">${main || "-"}</div>
-                        <div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div>
-                    </div>
-                </td>`;
+                if((cols[j+1] || "").trim() !== "") { lastRow = i; lastCol = j; }
+            }
+        }
+        
+        // Target lock position
+        let lockCol = lastCol + 3;
+        let lockRow = lastRow;
+        if(lockCol > 16) { lockCol = 1; lockRow = lastRow + 1; }
+
+        for(let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(',');
+            html += `<tr><td class="date-cell">${cols[0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
+            for(let j = 1; j <= 16; j += 3) {
+                if(i == lockRow && j == lockCol) {
+                    html += `<td class="lock-cell" onclick="showModal('m1')">🔒</td>`;
+                } else {
+                    let p1 = (cols[j] || "").replace(/"/g, '').split('');
+                    let main = (cols[j+1] || "").replace(/"/g, '');
+                    let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
+                    html += `<td><div class="cell-wrap"><div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${main || "-"}</div><div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div></div></td>`;
+                }
             }
             html += `</tr>`;
         }
@@ -80,7 +97,14 @@
     });
 
     function showModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
-    function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
+    function startTimer() {
+        let timer = 120, display = document.getElementById('timerDisplay');
+        let interval = setInterval(() => {
+            let m = parseInt(timer / 60, 10), s = parseInt(timer % 60, 10);
+            display.innerText = `Verify: ${m}:${s < 10 ? '0'+s : s}`;
+            if (--timer < 0) { clearInterval(interval); display.innerText = "✅ SUCCESS!"; setTimeout(() => { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }, 2000); }
+        }, 1000);
+    }
 </script>
 </body>
 </html>
