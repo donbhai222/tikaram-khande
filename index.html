@@ -2,48 +2,25 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MASTER VIP CHART</title>
     <style>
-        :root { --dark-green: #06402b; --gold: #FFD700; --vip-red: #e31e24; --light-green: #e8f5e9; }
-        body { background: #dcedc8; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
-        
-        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
-        .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
-
-        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-size: 13px; font-weight: bold; overflow: hidden; }
-        .ticker-wrap span { color: var(--gold); margin: 0 10px; }
-
-        .desc { background: #fff; width: 90%; margin: 15px auto; padding: 15px; border-left: 5px solid var(--dark-green); text-align: left; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .desc h4 { margin: 0 0 10px 0; color: var(--dark-green); }
-        .desc ul { padding-left: 20px; font-size: 14px; margin: 0; color: #333; }
-
-        .master-box { background: var(--dark-green); margin: 15px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
-        .master-title { color: var(--gold); font-size: 12px; font-weight: bold; }
-        .master-val { color: #fff; font-size: 32px; font-weight: 900; margin-top: 5px; }
-
-        .market-row { background: #fff; border: 1px solid #ddd; margin: 5px auto; width: 90%; padding: 10px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; }
-        .m-name { font-weight: 900; font-size: 16px; color: #333; }
-        .m-res { font-weight: 900; font-size: 20px; color: var(--dark-green); }
-
-        .chart-wrapper { width: 90%; margin: 10px auto; }
-        .chart-container { background: #fff; border: 1px solid #000; overflow-x: auto; }
-        .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; table-layout: fixed; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 8px 0; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; background: #fff; text-align: center; padding: 0; }
-        
-        .date-cell { background: var(--light-green) !important; font-size: 11px; font-weight: bold; width: 65px !important; }
-        .j-main { font-size: 22px; font-weight: 900; color: #000; }
-        
-        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; }
-        .lock-overlay { font-size: 18px; color: var(--vip-red); font-weight: bold; }
-
-        .btn-unlock-trigger { background: var(--dark-green); color: white; font-size: 16px; font-weight: bold; border: 2px solid var(--gold); padding: 12px 25px; border-radius: 30px; cursor: pointer; margin: 15px auto; display: block; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
-        /* Modal and other styles remain consistent with your requirement */
-        .modal-content { border: 3px solid var(--dark-green); }
-        .btn-action { background: var(--dark-green); color: var(--gold); }
+        :root { --dark-green: #06402b; --gold: #FFD700; --vip-red: #e31e24; }
+        body { background: #dcedc8; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); color: var(--gold); }
+        .ticker-wrap { background: #000; color: #fff; padding: 8px; border-bottom: 2px solid var(--gold); font-weight: bold; overflow: hidden; }
+        .ticker-wrap span { color: var(--gold); }
+        .desc { background: #fff; width: 90%; margin: 15px auto; padding: 15px; border-left: 5px solid var(--dark-green); text-align: left; }
+        .master-box { background: var(--dark-green); color: #fff; margin: 15px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; }
+        .master-val { font-size: 28px; font-weight: 900; }
+        .chart-container { background: #fff; width: 90%; margin: 10px auto; overflow-x: auto; border: 1px solid #000; }
+        .vip-table { border-collapse: collapse; width: 100%; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); padding: 8px; border: 1px solid #000; font-size: 12px; }
+        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; }
+        .btn-unlock-trigger { background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; font-weight: bold; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 350px; }
+        .btn-action { background: var(--dark-green); color: var(--gold); padding: 10px; width: 100%; border: none; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -51,46 +28,64 @@
 <div class="header"><h1>MASTER VIP CHART</h1></div>
 
 <div class="ticker-wrap">
-    <marquee behavior="scroll" direction="left" scrollamount="5">
-        🚀 **VIP ALERT:** आज की स्पेशल जोड़ी और अचूक पट्टी आ चुकी है! <span>💥 अपना सारा नुकसान कवर करने का यही सही मौका है। 💥</span> भरोसेमंद रिजल्ट्स के लिए तुरंत अनलॉक करें। <span>🔥 समय बहुत कम है, जल्दी करें! 🔥</span>
-    </marquee>
+    <marquee>🚀 VIP ALERT: आज की स्पेशल जोड़ी और अचूक पट्टी उपलब्ध है। तुरंत अनलॉक करें! 💥</marquee>
 </div>
 
 <div class="desc">
-    <h4>🏆 हमारी विशेषताएं:</h4>
     <ul>
-        <li><b>100% फिक्स गेम:</b> एक्सपर्ट्स द्वारा जांचा गया और सटीक गेम।</li>
-        <li><b>सुपरफास्ट अपडेट:</b> रिजल्ट आते ही सबसे पहले यहाँ देखें।</li>
-        <li><b>सुरक्षित और गोपनीय:</b> आपकी प्राइवेसी हमारी प्राथमिकता है।</li>
-        <li><b>लॉस कवर एक्सपर्ट्स:</b> आज ही जुड़ें और अपनी जीत सुनिश्चित करें।</li>
+        <li>✅ 100% सटीक और फिक्स गेम।</li>
+        <li>✅ एक्सपर्ट्स द्वारा तैयार किया गया चार्ट।</li>
+        <li>✅ सुपरफास्ट रिजल्ट अपडेट।</li>
     </ul>
 </div>
 
 <div class="master-box">
-    <div class="master-title">LIVE MASTER VIP RESULT</div>
-    <div class="master-val" id="vipVal">---</div>
+    <div>LIVE MASTER VIP RESULT</div>
+    <div class="master-val" id="vipVal">Loading...</div>
 </div>
 
-<div id="liveMarketContainer"></div>
+<div class="chart-container">
+    <table class="vip-table">
+        <thead>
+            <tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
+        </thead>
+        <tbody id="chartGrid"></tbody>
+    </table>
+</div>
 
-<div class="chart-wrapper">
-    <div class="chart-container">
-        <table class="vip-table">
-            <thead>
-                <tr>
-                    <th style="width:65px;">DATE</th>
-                    <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
-                </tr>
-            </thead>
-            <tbody id="chartGrid"></tbody>
-        </table>
+<button class="btn-unlock-trigger" onclick="openStep1()">🔓 REMOVE LOCK</button>
+
+<div class="modal-overlay" id="modalStep1">
+    <div class="modal-content">
+        <h3>Unlock VIP Chart</h3>
+        <input type="text" id="userName" placeholder="Naam" style="width:90%; padding:8px;">
+        <input type="number" id="userPhone" placeholder="Mobile" style="width:90%; padding:8px; margin-top:5px;">
+        <button class="btn-action" onclick="openStep2()">Aage Badhein</button>
     </div>
 </div>
 
-<button class="btn-unlock-trigger" id="unlockTriggerBtn" onclick="openStep1()">🔓 REMOVE LOCK</button>
-
 <script>
-    // आपका पुराना JavaScript यहाँ रखें
+    // Google Sheet Integration
+    const v = Math.random();
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
+
+    fetch(CHART_URL).then(r => r.text()).then(data => {
+        const rows = data.split('\n').map(r => r.split(','));
+        let html = '';
+        for(let i = 1; i < rows.length; i++) {
+            if(rows[i].length < 2) continue;
+            html += `<tr><td>${rows[i][0].replace(/"/g, '')}</td>`;
+            for(let j = 1; j <= 6; j++) {
+                html += `<td>${rows[i][j] ? rows[i][j].replace(/"/g, '') : '-'}</td>`;
+            }
+            html += `</tr>`;
+        }
+        document.getElementById('chartGrid').innerHTML = html;
+        document.getElementById('vipVal').innerText = "Update Ready";
+    });
+
+    function openStep1() { document.getElementById('modalStep1').style.display = 'flex'; }
+    function openStep2() { alert("Agli process par le ja raha hu..."); }
 </script>
 </body>
 </html>
