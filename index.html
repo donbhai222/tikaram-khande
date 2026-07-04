@@ -3,22 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOA SPECIAL VIP CHART</title>
+    <title>MASTER VIP CHART</title>
     <style>
         :root { --dark-green: #06402b; --gold: #FFD700; --vip-red: #e31e24; }
         body { background: #dcedc8; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
         
-        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); color: var(--gold); }
+        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
+        .header h1 { margin: 0; font-size: 22px; color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--gold), 0 0 30px var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+        
         .welcome-box { background: #fff; padding: 10px; margin: 10px auto; width: 90%; border: 1px solid var(--dark-green); border-radius: 5px; }
         
-        /* Mobile Optimization */
         .chart-container { background: #fff; width: 90%; margin: 10px auto; overflow-x: auto; border: 1px solid #000; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; font-size: 10px; }
         .vip-table th { background: var(--dark-green); color: var(--gold); padding: 4px; border: 1px solid #000; word-wrap: break-word; }
         .vip-table td { border: 1px solid #000; height: 40px; text-align: center; vertical-align: middle; }
-        
-        /* Footer Style */
-        .footer-note { margin: 20px auto; width: 90%; padding: 15px; background: var(--dark-green); color: white; border-radius: 10px; font-size: 13px; line-height: 1.5; border: 2px solid var(--gold); }
         
         .date-cell { width: 40px; font-weight: bold; line-height: 1.1; }
         .p-vertical { display: flex; flex-direction: column; font-size: 7px; line-height: 0.8; font-weight: bold; width: 10px; }
@@ -29,6 +27,8 @@
         @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
         
         .btn-unlock-trigger { background: var(--dark-green); color: white; padding: 10px 20px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 20px; font-weight: bold; }
+        
+        .footer-note { margin: 20px auto; width: 90%; padding: 15px; background: var(--dark-green); color: white; border-radius: 10px; font-size: 13px; line-height: 1.5; border: 2px solid var(--gold); text-align: center; }
         
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
         .btn-scroll { background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); padding: 8px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
@@ -41,7 +41,7 @@
 </head>
 <body>
 
-<div class="header"><h1>GOA SPECIAL VIP CHART</h1></div>
+<div class="header"><h1>MASTER VIP CHART</h1></div>
 
 <div class="welcome-box">
     <h2>स्वागत है भाई! 🙏</h2>
@@ -59,9 +59,8 @@
 
 <button class="btn-unlock-trigger" onclick="openModal('modalStep1')">🔓 REMOVE LOCK</button>
 
-<!-- Footer Section -->
 <div class="footer-note">
-    <strong style="color:var(--gold);">GOA SPECIAL VIP CHART</strong><br>
+    <strong style="color:var(--gold);">BOMBAY SPECIAL VIP CHART</strong><br>
     यह चार्ट पूरी तरह से विश्वसनीय और अनुभवी विशेषज्ञों द्वारा बनाया गया है। हमारे साथ जुड़कर आप अपने पुराने लॉस को आसानी से रिकवर कर सकते हैं। समय की पाबंदी और सटीकता हमारी पहचान है।
 </div>
 
@@ -83,13 +82,6 @@
         <div style="border:2px solid var(--dark-green); padding:8px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('1599')">
             <div style="font-weight:bold;">5 Din Ka Plan</div>
             <div style="color:var(--vip-red); font-weight:bold;">₹1599</div>
-        </div>
-        <div style="margin-top: 10px; padding: 8px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px; text-align: left; font-size: 11px;">
-            <p style="margin:0; font-weight:bold; color:#856404;">⚠️ महत्वपूर्ण निर्देश:</p>
-            <ul style="padding-left: 15px; margin: 3px 0 0 0; color:#856404;">
-                <li>पेमेंट के बाद UTR भरें।</li>
-                <li>रिफंड नहीं होगा।</li>
-            </ul>
         </div>
     </div>
 </div>
