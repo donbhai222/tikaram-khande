@@ -67,35 +67,27 @@
 <div class="modal-overlay" id="modalStep2">
     <div class="modal-content">
         <h3>Select Plan</h3>
-        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('799')">
+        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="openModal('modalStep3')">
             <div style="font-weight:bold;">1 Din Ka Plan</div>
             <div style="color:var(--vip-red); font-weight:bold;">₹799</div>
         </div>
-        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('1599')">
+        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="openModal('modalStep3')">
             <div style="font-weight:bold;">5 Din Ka Plan</div>
             <div style="color:var(--vip-red); font-weight:bold;">₹1599</div>
         </div>
-        <!-- निर्देश सेक्शन -->
         <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px; text-align: left; font-size: 12px;">
             <p style="margin:0; font-weight:bold; color:#856404;">⚠️ महत्वपूर्ण निर्देश:</p>
             <ul style="padding-left: 15px; margin: 5px 0 0 0; color:#856404;">
                 <li>पेमेंट के बाद UTR नंबर जरूर भरें।</li>
                 <li>पेमेंट रिफंडेबल नहीं है।</li>
-                <li>दिक्कत आने पर WhatsApp पर संपर्क करें।</li>
+                <li>दिक्कत आने पर WhatsApp करें।</li>
             </ul>
         </div>
     </div>
 </div>
 
 <!-- Modal 3 -->
-<div class="modal-overlay" id="modalStep3">
-    <div class="modal-content">
-        <h3 id="payAmountTitle">Pay ₹...</h3>
-        <img src="paytm-qr.png.jpeg" style="width:150px; height:150px; border:2px dashed #000;">
-        <input type="text" id="utr" placeholder="Enter 12-Digit UTR ID" style="width:90%; padding:8px; margin-top:10px;">
-        <button class="btn-action" onclick="startTimer()">Verify Payment</button>
-    </div>
-</div>
+<div class="modal-overlay" id="modalStep3"><div class="modal-content"><h3>Pay ₹799</h3><img src="paytm-qr.png.jpeg" style="width:150px; height:150px; border:2px dashed #000;"><input type="text" id="utr" placeholder="Enter 12-Digit UTR ID" style="width:90%; padding:8px; margin-top:10px;"><button class="btn-action" onclick="startTimer()">Verify Payment</button></div></div>
 
 <!-- Modal 4 -->
 <div class="modal-overlay" id="modalStep4"><div class="modal-content"><h3>Verification...</h3><div class="timer-display" id="timerBox">02:00</div><div id="successMsg" style="display:none; color:green; font-weight:bold; font-size:20px;">🎉 SUCCESS!</div></div></div>
@@ -129,12 +121,6 @@
     });
 
     function openModal(id) { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
-    
-    function setPayment(amount) {
-        document.getElementById('payAmountTitle').innerText = "Pay ₹" + amount;
-        openModal('modalStep3');
-    }
-
     function startTimer() {
         openModal('modalStep4');
         let t = 120;
