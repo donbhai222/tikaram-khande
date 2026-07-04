@@ -9,18 +9,23 @@
         body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
-        .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        
+        .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; }
         .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
-        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
+        
+        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; min-height: 200px; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
         .date-cell { width: 70px !important; font-size: 10px; font-weight: bold; background: #eee; padding: 5px !important; }
         .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
+        
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
         .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
         .j-main { font-size: 18px; font-weight: 900; }
+        
         .lock-cell { font-size: 25px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
         .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
@@ -35,12 +40,12 @@
 <div class="chart-wrapper">
     <table class="vip-table">
         <thead><tr><th style="width:70px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
-        <tbody id="chartGrid"></tbody>
+        <tbody id="chartGrid"><tr><td colspan="7">Loading...</td></tr></tbody>
     </table>
 </div>
 
 <div class="instr-box">
-    <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 सेल पर क्लिक करें।<br>• UTR दर्ज करके 'Verify' दबाएं।<br>• 2 मिनट इंतज़ार करें, 'SUCCESS' दिखेगा।
+    <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 सेल पर क्लिक करें।<br>• पेमेंट के बाद UTR दर्ज करें।<br>• 2 मिनट इंतज़ार करें।
 </div>
 
 <button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
@@ -50,32 +55,43 @@
 <div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="utr" placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="startTimer()">Verify</button><div id="timerDisplay" style="margin-top:10px; font-weight:bold;"></div></div></div>
 
 <script>
-    const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
+    // यह कोड तभी चलेगा जब पेज ब्राउज़र में पूरी तरह लोड हो जाएगा
+    window.onload = function() {
+        const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
 
-    fetch(URL).then(r => r.text()).then(data => {
-        const rows = data.split('\n').filter(r => r.trim() !== '');
-        let html = '';
-        let foundLock = false;
+        fetch(URL)
+        .then(r => r.text())
+        .then(data => {
+            const rows = data.split('\n').filter(r => r.trim() !== '');
+            let html = '';
+            let foundLock = false;
 
-        for(let i = 1; i < rows.length; i++) {
-            let cols = rows[i].split(',');
-            html += `<tr><td class="date-cell">${cols[0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
-            for(let j = 1; j <= 16; j += 3) {
-                let cellData = (cols[j+1] || "").trim();
-                if (cellData === "" && !foundLock) {
-                    html += `<td class="lock-cell" onclick="showModal('m1')">🔒</td>`;
-                    foundLock = true;
-                } else {
-                    let p1 = (cols[j] || "").replace(/"/g, '').split('');
-                    let main = cellData.replace(/"/g, '');
-                    let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
-                    html += `<td><div class="cell-wrap"><div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${main || "-"}</div><div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div></div></td>`;
+            for(let i = 1; i < rows.length; i++) {
+                let cols = rows[i].split(',');
+                if(cols.length < 2) continue; // डेटा एरर से बचने के लिए
+
+                html += `<tr><td class="date-cell">${cols[0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
+                for(let j = 1; j <= 16; j += 3) {
+                    let cellData = (cols[j+1] || "").trim();
+                    if (cellData === "" && !foundLock) {
+                        html += `<td class="lock-cell" onclick="showModal('m1')">🔒</td>`;
+                        foundLock = true;
+                    } else {
+                        let p1 = (cols[j] || "").replace(/"/g, '').split('');
+                        let main = cellData.replace(/"/g, '');
+                        let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
+                        html += `<td><div class="cell-wrap"><div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${main || "-"}</div><div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div></div></td>`;
+                    }
                 }
+                html += `</tr>`;
             }
-            html += `</tr>`;
-        }
-        document.getElementById('chartGrid').innerHTML = html;
-    });
+            document.getElementById('chartGrid').innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Fetch Error:", err);
+            document.getElementById('chartGrid').innerHTML = "<tr><td colspan='7'>Error Loading Chart</td></tr>";
+        });
+    };
 
     function showModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
     
@@ -89,7 +105,7 @@
             display.innerText = `Verifying... ${m}:${s < 10 ? '0'+s : s}`;
             if (--timer < 0) { 
                 clearInterval(interval); 
-                display.innerHTML = "<span style='color:green;'>✅ SUCCESS!</span>"; 
+                display.innerHTML = "<span style='color:lime;'>✅ SUCCESS!</span>"; 
                 setTimeout(() => { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }, 1500); 
             }
         }, 1000);
