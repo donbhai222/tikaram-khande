@@ -10,20 +10,23 @@
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
         
-        /* Colorful Description Box */
-        .desc-box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: center; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        /* Colorful Boxes */
+        .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
         
         .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
         .date-cell { width: 70px !important; font-size: 10px; font-weight: bold; background: #eee; padding: 5px !important; }
         .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
+        
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
         .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
         .j-main { font-size: 18px; font-weight: 900; }
+        
         .lock-cell { font-size: 25px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .instr-box { background: #fff; padding: 15px; margin: 15px auto; width: 90%; border: 2px dashed var(--dark-green); text-align: left; font-size: 13px; }
+
         .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
@@ -33,9 +36,7 @@
 <body>
 
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
-<div class="desc-box">
-    ✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे भरोसेमंद और सटीक रिजल्ट के लिए यहाँ विजिट करें।
-</div>
+<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे भरोसेमंद और सटीक रिजल्ट के लिए यहाँ विजिट करें।</div>
 
 <div class="chart-wrapper">
     <table class="vip-table">
@@ -45,7 +46,7 @@
 </div>
 
 <div class="instr-box">
-    <b>महत्वपूर्ण निर्देश:</b><br>• लॉक (🔒) वाले सेल को खोलने के लिए उस पर क्लिक करें।<br>• पेमेंट के बाद UTR दर्ज करें और 2 मिनट प्रतीक्षा करें।
+    <b>महत्वपूर्ण निर्देश:</b><br>• लॉक (🔒) वाले सेल पर क्लिक करके सर्विस अनलॉक करें।<br>• पेमेंट के बाद UTR/Transaction ID दर्ज करें।<br>• 2 मिनट इंतज़ार करें, फिर रिजल्ट खुल जाएगा।
 </div>
 
 <button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
@@ -60,29 +61,19 @@
     fetch(URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '');
         let html = '';
-        let lastRowIdx = -1, lastColIdx = -1;
-
-        // Find last filled cell
-        for(let i = 1; i < rows.length; i++) {
-            let cols = rows[i].split(',');
-            for(let j = 1; j <= 16; j += 3) {
-                if((cols[j+1] || "").trim() !== "") { lastRowIdx = i; lastColIdx = j; }
-            }
-        }
-
-        let lockRow = lastRowIdx;
-        let lockCol = lastColIdx + 3;
-        if(lockCol > 16) { lockCol = 1; lockRow = lastRowIdx + 1; }
+        let foundLock = false;
 
         for(let i = 1; i < rows.length; i++) {
             let cols = rows[i].split(',');
             html += `<tr><td class="date-cell">${cols[0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
             for(let j = 1; j <= 16; j += 3) {
-                if(i == lockRow && j == lockCol) {
+                let cellData = (cols[j+1] || "").trim();
+                if (cellData === "" && !foundLock) {
                     html += `<td class="lock-cell" onclick="showModal('m1')">🔒</td>`;
+                    foundLock = true;
                 } else {
                     let p1 = (cols[j] || "").replace(/"/g, '').split('');
-                    let main = (cols[j+1] || "").replace(/"/g, '');
+                    let main = cellData.replace(/"/g, '');
                     let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
                     html += `<td><div class="cell-wrap"><div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${main || "-"}</div><div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div></div></td>`;
                 }
