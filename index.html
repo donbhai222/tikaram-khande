@@ -11,99 +11,56 @@
         .header { background: var(--dark-green); padding: 15px; border-bottom: 4px solid var(--gold); }
         .header h1 { margin: 0; font-size: 22px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
 
-        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-family: sans-serif; font-size: 13px; font-weight: bold; overflow: hidden; }
-        .ticker-wrap marquee { vertical-align: middle; }
-        .ticker-wrap span { color: var(--gold); margin: 0 10px; }
-
-        /* UPDATED DESCRIPTION BOX - GREEN BACKGROUND */
+        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-size: 13px; font-weight: bold; overflow: hidden; }
+        
+        /* CENTERED DESCRIPTION BOX */
         .desc-box { 
             background: var(--dark-green); 
             color: #fff; 
             width: 90%; 
-            margin: 15px auto; 
-            padding: 15px; 
-            border-radius: 10px; 
-            border: 2px solid var(--gold); 
-            text-align: left;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin: 20px auto; 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 3px solid var(--gold); 
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .desc-box h3 { margin: 0 0 10px 0; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 5px; }
-        .desc-box ul { padding-left: 20px; font-size: 14px; margin: 0; }
+        .desc-box h3 { margin: 0 0 10px 0; color: var(--gold); font-size: 18px; text-transform: uppercase; }
+        .desc-box ul { list-style: none; padding: 0; font-size: 15px; }
+        .desc-box ul li { margin: 8px 0; font-weight: bold; }
 
-        .market-row { background: #fff; border: 1px solid #ddd; margin: 5px auto; width: 90%; padding: 10px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; }
-        .m-name { font-weight: 900; font-size: 16px; color: #333; margin-bottom: 5px; }
-        .m-res { font-weight: 900; font-size: 20px; color: var(--vip-red); }
-
-        .chart-wrapper { width: 90%; margin: 10px auto; }
-        .chart-container { background: #fff; border: 1px solid #000; overflow-x: auto; }
-        
+        .chart-wrapper { width: 90%; margin: 20px auto; }
+        .chart-container { background: #fff; border: 2px solid var(--dark-green); overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; table-layout: fixed; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 6px 0; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; position: relative; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 12px; padding: 10px 0; border: 1px solid #000; }
+        .vip-table td { border: 1px solid #000; height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; }
         
-        .date-cell { background: #f0f0f0 !important; font-size: 11px; font-weight: bold; width: 65px !important; line-height: 1.3; white-space: normal; padding: 4px !important; text-align: center; }
-        .cell-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-        .p-vertical { display: flex; flex-direction: column; font-size: 8px; line-height: 0.9; width: 10px; font-weight: bold; }
+        .date-cell { background: #f0f0f0 !important; font-size: 11px; font-weight: bold; width: 65px !important; }
+        .j-main { font-size: 22px; font-weight: 900; color: #000; }
+        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; color: var(--vip-red); font-weight: bold; }
         
-        .j-main { font-size: 22px; font-weight: 900; color: #000; margin: 0 5px; }
-        .highlight-red .j-main, .highlight-red .p-vertical { color: var(--vip-red) !important; }
-
-        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; }
-        .lock-overlay { font-size: 18px; color: var(--vip-red); font-weight: bold; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-        @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
-
-        .instruction-box { background: var(--dark-green); color: white; width: 90%; margin: 20px auto; padding: 15px; border-radius: 8px; border: 1px solid var(--gold); font-size: 14px; text-align: center; }
-
-        .btn-unlock-trigger { background: var(--vip-red); color: white; font-size: 16px; font-weight: bold; border: 2px solid var(--gold); padding: 12px 25px; border-radius: 30px; cursor: pointer; margin: 15px auto; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* Modal and other styles remain same */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 10px; box-sizing: border-box; }
-        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 100%; max-width: 340px; border: 3px solid var(--dark-green); text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .btn-action { background: var(--dark-green); color: var(--gold); border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 95%; margin-top: 10px; }
-        .btn-close { background: #777; color: white; margin-top: 5px; font-size: 12px; padding: 5px; width: auto; border-radius: 3px; border: none; cursor: pointer; }
-        .plan-box { border: 2px solid #ddd; padding: 12px; margin: 10px 0; border-radius: 8px; cursor: pointer; background: #f9f9f9; }
-        .qr-wrapper { width: 150px; height: 150px; margin: 15px auto; background: #fff; border: 2px dashed #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .timer-display { font-size: 32px; font-weight: bold; color: var(--vip-red); margin: 15px 0; }
-        .success-msg { color: green; font-size: 22px; font-weight: bold; margin: 20px 0; }
-        .social-sticky { position: fixed; bottom: 20px; left: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .btn-social { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: none; cursor: pointer; }
-        .btn-whatsapp { background: #25D366; }
-        .btn-telegram { background: #0088cc; }
-        .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .btn-scroll { width: 85px; height: 42px; border-radius: 8px; background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); font-weight: bold; font-size: 10px; cursor: pointer; }
+        .instruction-box { background: #fff; color: var(--dark-green); width: 90%; margin: 20px auto; padding: 15px; border-radius: 8px; border: 2px dashed var(--dark-green); font-weight: bold; }
+        .btn-unlock-trigger { background: var(--vip-red); color: white; font-size: 16px; font-weight: bold; padding: 15px 30px; border-radius: 30px; cursor: pointer; border: 2px solid var(--gold); margin: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA SPECIAL VIP CHART</h1></div>
 
-<div class="ticker-wrap">
-    <marquee behavior="scroll" direction="left" scrollamount="5">
-        ⚠️ ध्यान दें: गोवा स्पेशल VIP चार्ट का आज का लीक गेम तैयार है! <span>💥 100% फिक्स जोड़ी और अचूक पट्टी उपलब्ध है। 💥</span> हमारी सर्विस सबसे तेज़ और सबसे भरोसेमंद है। 
-    </marquee>
-</div>
-
 <div class="desc-box">
-    <h3>Service Features:</h3>
+    <h3>📢 Hamari Vishesh Sewa</h3>
     <ul>
-        <li>सबसे तेज़ और सटीक रिजल्ट।</li>
-        <li>एक्सपर्ट्स द्वारा तैयार किया गया VIP गेम।</li>
-        <li>100% भरोसेमंद और सुरक्षित सर्विस।</li>
-        <li>आज ही जुड़ें और अपना लॉस कवर करें।</li>
+        <li>✅ 100% Sahi aur Tez Result.</li>
+        <li>✅ Expert dwara taiyar VIP Game.</li>
+        <li>✅ 24/7 Bharosemand Sewa.</li>
     </ul>
 </div>
-
-<div id="liveMarketContainer"></div>
 
 <div class="chart-wrapper">
     <div class="chart-container">
         <table class="vip-table">
             <thead>
-                <tr>
-                    <th style="width:65px;">DATE</th>
-                    <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
-                </tr>
+                <tr><th style="width:65px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
             </thead>
             <tbody id="chartGrid"></tbody>
         </table>
@@ -111,19 +68,29 @@
 </div>
 
 <div class="instruction-box">
-    📢 निर्देश: चार्ट में लॉक (🔒) वाले बॉक्स को अनलॉक करने के लिए नीचे दिए गए 'REMOVE LOCK' बटन पर क्लिक करें।
+    🔒 Chart unlock karne ke liye niche click karein.
 </div>
 
-<button class="btn-unlock-trigger" id="unlockTriggerBtn" onclick="openStep1()">🔓 REMOVE LOCK</button>
+<button class="btn-unlock-trigger" onclick="alert('Step 1 open...')">🔓 REMOVE LOCK</button>
 
-<div class="modal-overlay" id="modalStep1">
-    <div class="modal-content">
-        <h3>Unlock VIP Chart</h3>
-        <input type="text" id="userName" placeholder="Apna Naam Daalein" required>
-        <input type="number" id="userPhone" placeholder="Mobile Number Daalein" required>
-        <button class="btn-action" onclick="openStep2()">Aage Badhein</button>
-        <button class="btn-close" onclick="closeAllModals()">Close</button>
-    </div>
-</div>
+<script>
+    // Chart Render Logic
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
+    fetch(CHART_URL).then(r => r.text()).then(data => {
+        const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
+        let html = '';
+        for(let i = 1; i < rows.length; i++) {
+            let d = rows[i][0].replace(/"/g, '');
+            html += `<tr><td class="date-cell">${d}</td>`;
+            for(let j = 1; j <= 16; j += 3) {
+                let jd = (rows[i][j+1] || "").replace(/"/g, '').trim();
+                if(i === 1 && j === 1) html += `<td class="single-lock-cell">🔒 VIP</td>`;
+                else html += `<td><div class="j-main">${jd}</div></td>`;
+            }
+            html += `</tr>`;
+        }
+        document.getElementById('chartGrid').innerHTML = html;
+    });
+</script>
 </body>
 </html>
