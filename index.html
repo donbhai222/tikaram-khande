@@ -6,27 +6,18 @@
     <title>GOA SPECIAL CHART</title>
     <style>
         :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 50px; }
+        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
-        .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
-        
-        .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; }
-        .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
-        
         .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
-        .vip-table { border-collapse: collapse; width: 100%; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; }
-        
+        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
-        .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 9px; font-weight: bold; line-height: 1; }
         .j-main { font-size: 16px; font-weight: 900; }
-        
         .lock-cell { font-size: 20px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        .btn-unlock { background: var(--vip-red); color: white; padding: 10px 20px; border-radius: 20px; border: 2px solid var(--gold); cursor: pointer; margin: 10px auto; font-weight: bold; }
-        
+        .sticky-nav { position: fixed; bottom: 20px; right: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .btn-nav { background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); padding: 8px; font-size: 10px; cursor: pointer; }
         .modal { display:none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
     </style>
@@ -34,47 +25,60 @@
 <body>
 
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
-<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे सटीक रिजल्ट।</div>
-
 <div class="chart-wrapper">
     <table class="vip-table" id="vipTable">
-        <thead><tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
-        <tbody id="chartGrid"><tr><td colspan="7">Loading data...</td></tr></tbody>
+        <tbody id="chartGrid"><tr><td>Loading...</td></tr></tbody>
     </table>
 </div>
 
-<div class="instr-box">
-    <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 सेल पर क्लिक करें।<br>• पेमेंट के बाद UTR दर्ज करें।<br>• 2 मिनट इंतज़ार करें।
+<div class="sticky-nav">
+    <button class="btn-nav" onclick="window.scrollTo(0,0)">TOP</button>
+    <button class="btn-nav" onclick="window.scrollTo(0,document.body.scrollHeight)">BOTTOM</button>
 </div>
 
-<button class="btn-unlock" onclick="openM('m1')">🔓 UNLOCK CHART</button>
-
 <div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="n" placeholder="Name" style="width:90%"><button onclick="openM('m2')" style="width:95%; margin-top:10px;">Next</button></div></div>
-<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="openM('m3')" style="padding:10px; border:1px solid #000; margin:5px;">₹799 Plan</div></div></div>
-<div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="u" placeholder="Enter UTR" style="width:90%"><button onclick="startT()" style="width:95%; margin-top:10px;">Verify</button><div id="tD" style="margin-top:10px;"></div></div></div>
+<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="openM('m3')" style="padding:10px; border:1px solid #000; cursor:pointer;">₹799 Plan</div></div></div>
+<div id="m3" class="modal">
+    <div class="modal-content">
+        <h3>Payment</h3>
+        <img src="paytm-qr.png.jpeg" alt="QR Code" style="width:100%; max-width:200px; border:1px solid #ccc; margin:10px 0;">
+        <input id="u" placeholder="Enter UTR" style="width:90%">
+        <button onclick="startT()" style="width:95%; margin-top:10px;">Verify</button>
+        <div id="tD" style="margin-top:10px;"></div>
+    </div>
+</div>
 
 <script>
-    // डिप्लॉयमेंट एरर से बचने के लिए ये फंक्शन सीधे लोड होगा
     document.addEventListener("DOMContentLoaded", function() {
         const url = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart";
-        
         fetch(url)
         .then(res => res.text())
         .then(csv => {
             const rows = csv.split('\n').filter(r => r.trim() !== '');
-            let html = '';
-            let lockFound = false;
+            let grid = [];
+            for(let i = 1; i < rows.length; i++) grid.push(rows[i].split(','));
 
-            for(let i = 1; i < rows.length; i++) {
-                let cols = rows[i].split(',');
-                html += `<tr><td style="font-size:9px;">${cols[0].replace(/"/g, '')}</td>`;
+            let lastRow = -1, lastCol = -1;
+            for(let i = 0; i < grid.length; i++) {
                 for(let j = 1; j <= 16; j += 3) {
-                    let val = (cols[j+1] || "").trim().replace(/"/g, '');
-                    if (val === "" && !lockFound) {
+                    if((grid[i][j+1] || "").trim() !== "") { lastRow = i; lastCol = j; }
+                }
+            }
+
+            let lockRow = lastRow, lockCol = lastCol + 3;
+            if(lockCol > 16) { lockCol = 1; lockRow = lastRow + 1; }
+
+            let html = '';
+            for(let i = 0; i < grid.length; i++) {
+                html += `<tr><td style="font-size:9px;">${grid[i][0].replace(/"/g, '')}</td>`;
+                for(let j = 1; j <= 16; j += 3) {
+                    if(i === lockRow && j === lockCol) {
                         html += `<td class="lock-cell" onclick="openM('m1')">🔒</td>`;
-                        lockFound = true;
                     } else {
-                        html += `<td><div class="cell-wrap"><div class="p-vertical">${cols[j]||''}</div><div class="j-main">${val||'-'}</div><div class="p-vertical">${cols[j+2]||''}</div></div></td>`;
+                        let p1 = (grid[i][j] || "").replace(/"/g, '').split('').join('<br>');
+                        let val = (grid[i][j+1] || "").trim().replace(/"/g, '');
+                        let p2 = (grid[i][j+2] || "").replace(/"/g, '').split('').join('<br>');
+                        html += `<td><div class="cell-wrap"><div class="p-vertical">${p1}</div><div class="j-main">${val||'-'}</div><div class="p-vertical">${p2}</div></div></td>`;
                     }
                 }
                 html += `</tr>`;
@@ -83,11 +87,7 @@
         });
     });
 
-    function openM(id) { 
-        document.querySelectorAll('.modal').forEach(m => m.style.display='none');
-        document.getElementById(id).style.display='flex'; 
-    }
-    
+    function openM(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
     function startT() {
         let t = 120, d = document.getElementById('tD');
         let i = setInterval(() => {
