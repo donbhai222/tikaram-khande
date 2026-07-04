@@ -7,36 +7,24 @@
     <style>
         :root { --dark-green: #06402b; --gold: #FFD700; --vip-red: #e31e24; }
         body { background: #dcedc8; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
-        
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 22px; color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--gold), 0 0 30px var(--gold); letter-spacing: 2px; text-transform: uppercase; }
-        
         .welcome-box { background: #fff; padding: 15px; margin: 10px auto; width: 90%; border: 1px solid var(--dark-green); border-radius: 5px; }
-        
         .chart-container { background: #fff; width: 90%; margin: 10px auto; overflow-x: auto; border: 1px solid #000; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; font-size: 10px; }
         .vip-table th { background: var(--dark-green); color: var(--gold); padding: 4px; border: 1px solid #000; word-wrap: break-word; }
         .vip-table td { border: 1px solid #000; height: 40px; text-align: center; vertical-align: middle; }
-        
         .date-cell { width: 40px; font-weight: bold; line-height: 1.1; }
         .p-vertical { display: flex; flex-direction: column; font-size: 7px; line-height: 0.8; font-weight: bold; width: 10px; }
         .j-main { font-size: 14px; font-weight: 900; margin: 0 4px; }
         .cell-wrap { display: flex; align-items: center; justify-content: center; padding: 1px; }
-        
         .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; font-weight: bold; color: var(--vip-red); font-size: 10px; }
         @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
-        
         .btn-unlock-trigger { background: var(--dark-green); color: white; padding: 10px 20px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 20px; font-weight: bold; }
-        
         .footer-note { margin: 20px auto; width: 90%; padding: 15px; background: var(--dark-green); color: white; border-radius: 10px; font-size: 13px; line-height: 1.5; border: 2px solid var(--gold); text-align: center; }
-        
-        .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .btn-scroll { background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); padding: 8px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
-
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
         .btn-action { background: var(--dark-green); color: var(--gold); padding: 10px; width: 100%; border: none; margin-top: 10px; cursor: pointer; font-weight: bold; }
-        .timer-display { font-size: 25px; font-weight: bold; color: var(--vip-red); margin: 10px; }
     </style>
 </head>
 <body>
@@ -46,7 +34,7 @@
 <div class="welcome-box">
     <h2>स्वागत है भाई! 🙏</h2>
     <p style="font-size: 14px; color: #333; line-height: 1.5;">
-        <b>MATKA LOGIC CHART</b> में आपका स्वागत है। यहाँ आपको मिलता है सबसे सटीक और भरोसेमंद डेटा, जो अनुभवी विशेषज्ञों द्वारा तैयार किया गया है। अपने गेमिंग अनुभव को और बेहतर और सफल बनाने के लिए आज ही हमारे साथ जुड़ें!
+        <b>MATKA LOGIC CHART</b> में आपका स्वागत है। यहाँ आपको मिलता है सबसे सटीक और भरोसेमंद डेटा।
     </p>
 </div>
 
@@ -62,83 +50,45 @@
 <button class="btn-unlock-trigger" onclick="openModal('modalStep1')">🔓 REMOVE LOCK</button>
 
 <div class="footer-note">
-    <strong style="color:var(--gold);">DISCLAIMER / अस्वीकरण</strong><br>
-    यह वेबसाइट केवल शैक्षिक उद्देश्यों के लिए है। हम किसी भी तरह के सट्टे या जुए को बढ़ावा नहीं देते हैं।<br>
-    This website is for educational purposes only. We do not promote any form of betting or gambling.
+    <strong>DISCLAIMER</strong><br>
+    This website is for educational purposes only.
 </div>
 
-<div class="scroll-sticky">
-    <button class="btn-scroll" onclick="window.scrollTo(0,0)">▲ TOP</button>
-    <button class="btn-scroll" onclick="window.scrollTo(0,document.body.scrollHeight)">▼ BOTTOM</button>
-</div>
-
-<!-- Modals -->
-<div class="modal-overlay" id="modalStep1"><div class="modal-content"><h3>Unlock VIP Chart</h3><input type="text" id="userName" placeholder="Apna Naam" style="width:90%; padding:8px;"><input type="number" id="userPhone" placeholder="Mobile Number" style="width:90%; padding:8px; margin-top:5px;"><button class="btn-action" onclick="openModal('modalStep2')">Aage Badhein</button></div></div>
+<div class="modal-overlay" id="modalStep1"><div class="modal-content"><h3>Unlock VIP</h3><input type="text" id="userName" placeholder="Naam" style="width:90%; padding:8px;"><button class="btn-action" onclick="openModal('modalStep2')">Aage Badhein</button></div></div>
 
 <div class="modal-overlay" id="modalStep2">
     <div class="modal-content">
-        <h3>Select Plan / प्लान चुनें</h3>
-        <div style="border:2px solid var(--dark-green); padding:8px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('999')">
-            <div style="font-weight:bold;">1 Din Ka Plan / 1 दिन के लिए</div>
-            <div style="color:var(--vip-red); font-weight:bold;">₹999</div>
-        </div>
-        <div style="border:2px solid var(--dark-green); padding:8px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('1999')">
-            <div style="font-weight:bold;">7 Din Ka Plan / 7 दिन के लिए</div>
-            <div style="color:var(--vip-red); font-weight:bold;">₹1999</div>
-        </div>
+        <h3>Select Plan</h3>
+        <button class="btn-action" onclick="setPayment('999')">1 Din - ₹999</button>
+        <button class="btn-action" onclick="setPayment('1999')">7 Din - ₹1999</button>
     </div>
 </div>
 
 <div class="modal-overlay" id="modalStep3">
     <div class="modal-content">
-        <h3 id="payAmountTitle">Pay ₹...</h3>
-        <img src="paytm-qr.png.jpeg" style="width:120px; height:120px; border:2px dashed #000;">
-        <input type="text" id="utr" placeholder="Enter 12-Digit UTR" style="width:90%; padding:8px; margin-top:10px;">
-        <button class="btn-action" onclick="startTimer()">Verify Payment</button>
+        <h3 id="payAmountTitle">Pay</h3>
+        <p>QR Code yaha show hoga</p>
+        <button class="btn-action" onclick="alert('Checking...')">Verify</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="modalStep4"><div class="modal-content"><h3>Verification...</h3><div class="timer-display" id="timerBox">02:00</div><div id="successMsg" style="display:none; color:green; font-weight:bold; font-size:18px;">🎉 SUCCESS!</div></div></div>
-
 <script>
-    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart";
     
     fetch(CHART_URL).then(r => r.text()).then(data => {
-        const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
-        let lastRow = 0, lastCol = 0;
-        for(let i=1; i<rows.length; i++) {
-            for(let j=1; j<=16; j+=3) { if((rows[i][j+1]||"").replace(/"/g, '') !== "") { lastRow = i; lastCol = j; } }
-        }
-        let lockR = lastCol + 3 > 16 ? lastRow + 1 : lastRow;
-        let lockC = lastCol + 3 > 16 ? 1 : lastCol + 3;
-
+        const rows = data.split('\n').map(r => r.split(','));
         let html = '';
         for(let i = 1; i < rows.length; i++) {
-            html += `<tr><td class="date-cell" style="background:#f0f0f0;">${rows[i][0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
-            for(let j = 1; j <= 16; j += 3) {
-                if(i == lockR && j == lockC) {
-                    html += `<td class="single-lock-cell" onclick="openModal('modalStep1')">🔒 VIP</td>`;
-                } else {
-                    let lp = (rows[i][j]||"").replace(/"/g, ''), jd = (rows[i][j+1]||"").replace(/"/g, ''), rp = (rows[i][j+2]||"").replace(/"/g, '');
-                    html += jd ? `<td><div class="cell-wrap"><div class="p-vertical">${lp.split('').map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${jd}</div><div class="p-vertical">${rp.split('').map(n=>`<span>${n}</span>`).join('')}</div></div></td>` : `<td></td>`;
-                }
-            }
+            if(!rows[i][0]) continue;
+            html += `<tr><td class="date-cell">${rows[i][0].replace(/"/g, '')}</td>`;
+            for(let j = 1; j <= 16; j++) { html += `<td>${(rows[i][j]||"").replace(/"/g, '')}</td>`; }
             html += `</tr>`;
         }
         document.getElementById('chartGrid').innerHTML = html;
     });
 
     function openModal(id) { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
-    function setPayment(amount) { document.getElementById('payAmountTitle').innerText = "Pay ₹" + amount; openModal('modalStep3'); }
-    function startTimer() {
-        openModal('modalStep4');
-        let t = 120;
-        let int = setInterval(() => {
-            let m = Math.floor(t / 60), s = t % 60;
-            document.getElementById('timerBox').innerText = `0${m}:${s<10?'0':''}${s}`;
-            if(--t < 0) { clearInterval(int); document.getElementById('timerBox').style.display='none'; document.getElementById('successMsg').style.display='block'; }
-        }, 1000);
-    }
+    function setPayment(amt) { document.getElementById('payAmountTitle').innerText = "Pay ₹" + amt; openModal('modalStep3'); }
 </script>
 </body>
 </html>
