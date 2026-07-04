@@ -10,29 +10,32 @@
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); color: var(--gold); }
         .welcome-box { background: #fff; padding: 10px; margin: 10px auto; width: 90%; border: 1px solid var(--dark-green); border-radius: 5px; }
-        .welcome-box h2 { color: var(--dark-green); margin: 5px 0; }
         
-        .chart-container { background: #fff; width: 95%; margin: 10px auto; overflow-x: auto; border: 1px solid #000; }
-        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 6px; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; }
+        /* Mobile Optimization */
+        .chart-container { background: #fff; width: 90%; margin: 10px auto; overflow-x: auto; border: 1px solid #000; }
+        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; font-size: 10px; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); padding: 4px; border: 1px solid #000; word-wrap: break-word; }
+        .vip-table td { border: 1px solid #000; height: 40px; text-align: center; vertical-align: middle; }
         
-        .p-vertical { display: flex; flex-direction: column; font-size: 8px; line-height: 0.9; font-weight: bold; width: 12px; }
-        .j-main { font-size: 18px; font-weight: 900; margin: 0 8px; }
-        .cell-wrap { display: flex; align-items: center; justify-content: center; padding: 2px; }
+        /* Date Column Fix - 2 lines */
+        .date-cell { width: 40px; font-weight: bold; line-height: 1.1; }
         
-        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; font-weight: bold; color: var(--vip-red); }
+        .p-vertical { display: flex; flex-direction: column; font-size: 7px; line-height: 0.8; font-weight: bold; width: 10px; }
+        .j-main { font-size: 14px; font-weight: 900; margin: 0 4px; }
+        .cell-wrap { display: flex; align-items: center; justify-content: center; padding: 1px; }
+        
+        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; font-weight: bold; color: var(--vip-red); font-size: 10px; }
         @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
         
-        .btn-unlock-trigger { background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 20px; font-weight: bold; }
+        .btn-unlock-trigger { background: var(--dark-green); color: white; padding: 10px 20px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 20px; font-weight: bold; }
         
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
         .btn-scroll { background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); padding: 8px; border-radius: 5px; cursor: pointer; font-size: 10px; font-weight: bold; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 350px; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
         .btn-action { background: var(--dark-green); color: var(--gold); padding: 10px; width: 100%; border: none; margin-top: 10px; cursor: pointer; font-weight: bold; }
-        .timer-display { font-size: 30px; font-weight: bold; color: var(--vip-red); margin: 15px; }
+        .timer-display { font-size: 25px; font-weight: bold; color: var(--vip-red); margin: 10px; }
     </style>
 </head>
 <body>
@@ -41,13 +44,13 @@
 
 <div class="welcome-box">
     <h2>स्वागत है भाई! 🙏</h2>
-    <p style="font-size: 14px;">सबसे भरोसेमंद और सटीक VIP गेमिंग चार्ट। आज ही जुड़ें और अपना लॉस कवर करें!</p>
+    <p style="font-size: 13px;">सटीक VIP गेमिंग चार्ट। आज ही जुड़ें और लॉस कवर करें!</p>
 </div>
 
 <div class="chart-container">
     <table class="vip-table">
         <thead>
-            <tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
+            <tr><th style="width:40px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
         </thead>
         <tbody id="chartGrid"></tbody>
     </table>
@@ -60,37 +63,40 @@
     <button class="btn-scroll" onclick="window.scrollTo(0,document.body.scrollHeight)">▼ BOTTOM</button>
 </div>
 
-<!-- Modal 1 -->
+<!-- Modals -->
 <div class="modal-overlay" id="modalStep1"><div class="modal-content"><h3>Unlock VIP Chart</h3><input type="text" id="userName" placeholder="Apna Naam" style="width:90%; padding:8px;"><input type="number" id="userPhone" placeholder="Mobile Number" style="width:90%; padding:8px; margin-top:5px;"><button class="btn-action" onclick="openModal('modalStep2')">Aage Badhein</button></div></div>
 
-<!-- Modal 2 -->
 <div class="modal-overlay" id="modalStep2">
     <div class="modal-content">
         <h3>Select Plan</h3>
-        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="openModal('modalStep3')">
+        <div style="border:2px solid var(--dark-green); padding:8px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('799')">
             <div style="font-weight:bold;">1 Din Ka Plan</div>
             <div style="color:var(--vip-red); font-weight:bold;">₹799</div>
         </div>
-        <div style="border:2px solid var(--dark-green); padding:10px; margin:5px; border-radius:8px; cursor:pointer;" onclick="openModal('modalStep3')">
+        <div style="border:2px solid var(--dark-green); padding:8px; margin:5px; border-radius:8px; cursor:pointer;" onclick="setPayment('1599')">
             <div style="font-weight:bold;">5 Din Ka Plan</div>
             <div style="color:var(--vip-red); font-weight:bold;">₹1599</div>
         </div>
-        <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px; text-align: left; font-size: 12px;">
+        <div style="margin-top: 10px; padding: 8px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px; text-align: left; font-size: 11px;">
             <p style="margin:0; font-weight:bold; color:#856404;">⚠️ महत्वपूर्ण निर्देश:</p>
-            <ul style="padding-left: 15px; margin: 5px 0 0 0; color:#856404;">
-                <li>पेमेंट के बाद UTR नंबर जरूर भरें।</li>
-                <li>पेमेंट रिफंडेबल नहीं है।</li>
-                <li>दिक्कत आने पर WhatsApp करें।</li>
+            <ul style="padding-left: 15px; margin: 3px 0 0 0; color:#856404;">
+                <li>पेमेंट के बाद UTR भरें।</li>
+                <li>रिफंड नहीं होगा।</li>
             </ul>
         </div>
     </div>
 </div>
 
-<!-- Modal 3 -->
-<div class="modal-overlay" id="modalStep3"><div class="modal-content"><h3>Pay ₹799</h3><img src="paytm-qr.png.jpeg" style="width:150px; height:150px; border:2px dashed #000;"><input type="text" id="utr" placeholder="Enter 12-Digit UTR ID" style="width:90%; padding:8px; margin-top:10px;"><button class="btn-action" onclick="startTimer()">Verify Payment</button></div></div>
+<div class="modal-overlay" id="modalStep3">
+    <div class="modal-content">
+        <h3 id="payAmountTitle">Pay ₹...</h3>
+        <img src="paytm-qr.png.jpeg" style="width:120px; height:120px; border:2px dashed #000;">
+        <input type="text" id="utr" placeholder="Enter 12-Digit UTR" style="width:90%; padding:8px; margin-top:10px;">
+        <button class="btn-action" onclick="startTimer()">Verify Payment</button>
+    </div>
+</div>
 
-<!-- Modal 4 -->
-<div class="modal-overlay" id="modalStep4"><div class="modal-content"><h3>Verification...</h3><div class="timer-display" id="timerBox">02:00</div><div id="successMsg" style="display:none; color:green; font-weight:bold; font-size:20px;">🎉 SUCCESS!</div></div></div>
+<div class="modal-overlay" id="modalStep4"><div class="modal-content"><h3>Verification...</h3><div class="timer-display" id="timerBox">02:00</div><div id="successMsg" style="display:none; color:green; font-weight:bold; font-size:18px;">🎉 SUCCESS!</div></div></div>
 
 <script>
     const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
@@ -106,7 +112,8 @@
 
         let html = '';
         for(let i = 1; i < rows.length; i++) {
-            html += `<tr><td style="background:#f0f0f0;">${rows[i][0].replace(/"/g, '')}</td>`;
+            // DATE cell class added
+            html += `<tr><td class="date-cell" style="background:#f0f0f0;">${rows[i][0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
             for(let j = 1; j <= 16; j += 3) {
                 if(i == lockR && j == lockC) {
                     html += `<td class="single-lock-cell" onclick="openModal('modalStep1')">🔒 VIP</td>`;
@@ -121,6 +128,7 @@
     });
 
     function openModal(id) { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
+    function setPayment(amount) { document.getElementById('payAmountTitle').innerText = "Pay ₹" + amount; openModal('modalStep3'); }
     function startTimer() {
         openModal('modalStep4');
         let t = 120;
