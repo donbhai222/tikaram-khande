@@ -10,6 +10,7 @@
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
+        .desc-box { background: #fff; padding: 10px; margin: 10px auto; width: 90%; border-left: 5px solid var(--dark-green); text-align: left; font-size: 13px; color: #333; }
 
         .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
@@ -22,21 +23,23 @@
         .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
         .j-main { font-size: 18px; font-weight: 900; }
         
-        .lock-cell { font-size: 25px; cursor: pointer; animation: flash 1.5s infinite; }
+        .lock-cell { font-size: 25px; cursor: pointer; animation: flash 1.5s infinite; background: #fff5f5; }
         @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
+        .instr-box { background: #fff; padding: 15px; margin: 15px auto; width: 90%; border: 2px dashed var(--dark-green); text-align: left; font-size: 13px; }
+        
         .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
         .btn-action { background:var(--dark-green); color:var(--gold); border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer; }
-        
-        .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
-        .btn-scroll { width: 70px; padding: 8px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
+<div class="desc-box">
+    <b>स्वागत है!</b> यहाँ आप GOA SPECIAL CHART के सबसे सटीक और भरोसेमंद रिजल्ट देख सकते हैं। हमारी सर्विस सबसे तेज़ है।
+</div>
 
 <div class="chart-wrapper">
     <table class="vip-table">
@@ -45,14 +48,14 @@
     </table>
 </div>
 
-<button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
-
-<div class="scroll-sticky">
-    <button class="btn-scroll" onclick="window.scrollTo(0,0)">TOP</button>
-    <button class="btn-scroll" onclick="window.scrollTo(0,document.body.scrollHeight)">BOTTOM</button>
+<div class="instr-box">
+    <b>महत्वपूर्ण निर्देश:</b><br>
+    • लॉक (🔒) वाले सेल को अनलॉक करने के लिए बटन पर क्लिक करें।<br>
+    • पेमेंट के बाद UTR/Transaction ID दर्ज करें और 2 मिनट प्रतीक्षा करें।
 </div>
 
-<!-- Modals -->
+<button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
+
 <div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="name" placeholder="Naam" style="width:90%"><input id="phone" placeholder="Mobile" style="width:90%; margin:5px 0;"><button class="btn-action" onclick="showModal('m2')">Next</button></div></div>
 <div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹799 Plan</div><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹1599 Plan</div></div></div>
 <div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="utr" placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="startTimer()">Verify</button><div id="timerDisplay" style="margin-top:10px; font-weight:bold;"></div></div></div>
@@ -63,9 +66,9 @@
     fetch(URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '');
         let html = '';
-        
-        // Find last filled cell
         let lastRow = 0, lastCol = 0;
+        
+        // Find last cell
         for(let i = 1; i < rows.length; i++) {
             let cols = rows[i].split(',');
             for(let j = 1; j <= 16; j += 3) {
@@ -73,7 +76,6 @@
             }
         }
         
-        // Target lock position
         let lockCol = lastCol + 3;
         let lockRow = lastRow;
         if(lockCol > 16) { lockCol = 1; lockRow = lastRow + 1; }
