@@ -6,28 +6,28 @@
     <title>GOA SPECIAL CHART</title>
     <style>
         :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #f0f4f3; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
 
-        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; overflow-x: auto; border: 1px solid #000; }
-        .vip-table { border-collapse: collapse; width: 100%; }
+        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
+        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; font-size: 11px; }
-        
-        /* Cell content style */
-        .cell-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
-        .p-top { font-size: 8px; font-weight: bold; }
-        .j-main { font-size: 18px; font-weight: 900; color: #000; }
-        .p-bottom { font-size: 8px; font-weight: bold; }
+        .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
 
-        .btn-unlock { background: var(--vip-red); color: white; padding: 10px 20px; border-radius: 20px; border: 2px solid var(--gold); cursor: pointer; margin: 10px; font-weight: bold; }
+        .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
+        .j-main { font-size: 18px; font-weight: 900; }
+
+        .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
         
-        /* Modals */
         .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
         .btn-action { background:var(--dark-green); color:var(--gold); border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer; }
+        
+        .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
+        .btn-scroll { width: 70px; padding: 8px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -36,16 +36,21 @@
 
 <div class="chart-wrapper">
     <table class="vip-table">
-        <thead><tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
+        <thead><tr><th style="width:50px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
         <tbody id="chartGrid"></tbody>
     </table>
 </div>
 
 <button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
 
-<div id="m1" class="modal"><div class="modal-content"><h3>Details</h3><input id="name" placeholder="Naam" style="width:90%"><input id="phone" placeholder="Mobile" style="width:90%; margin-top:5px;"><button class="btn-action" onclick="showModal('m2')">Next</button></div></div>
-<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px;">Plan 1 - ₹799</div><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px;">Plan 2 - ₹1599</div></div></div>
-<div id="m3" class="modal"><div class="modal-content"><h3>Scan QR</h3><div style="height:100px; background:#eee; margin:10px;">QR CODE</div><input placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="closeAll()">Verify</button></div></div>
+<div class="scroll-sticky">
+    <button class="btn-scroll" onclick="window.scrollTo(0,0)">TOP</button>
+    <button class="btn-scroll" onclick="window.scrollTo(0,document.body.scrollHeight)">BOTTOM</button>
+</div>
+
+<div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="name" placeholder="Naam" style="width:90%"><input id="phone" placeholder="Mobile" style="width:90%; margin:5px 0;"><button class="btn-action" onclick="showModal('m2')">Next</button></div></div>
+<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹799 Plan</div><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹1599 Plan</div></div></div>
+<div id="m3" class="modal"><div class="modal-content"><h3>QR Scan</h3><div style="height:100px; background:#ddd; margin:10px; display:flex; align-items:center; justify-content:center;">QR CODE</div><input placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="closeAll()">Verify</button></div></div>
 
 <script>
     const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
@@ -57,26 +62,24 @@
             let cols = rows[i].split(',');
             html += `<tr><td style="background:#eee;">${cols[0].replace(/"/g, '')}</td>`;
             for(let j = 1; j <= 16; j += 3) {
-                let p1 = (cols[j] || "").replace(/"/g, '');
+                let p1 = (cols[j] || "").replace(/"/g, '').split('');
                 let main = (cols[j+1] || "").replace(/"/g, '');
-                let p2 = (cols[j+2] || "").replace(/"/g, '');
+                let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
+                
                 html += `<td>
-                            <div class="cell-container">
-                                <span class="p-top">${p1}</span>
-                                <span class="j-main">${main || "-"}</span>
-                                <span class="p-bottom">${p2}</span>
-                            </div>
-                         </td>`;
+                    <div class="cell-wrap">
+                        <div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div>
+                        <div class="j-main">${main || "-"}</div>
+                        <div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div>
+                    </div>
+                </td>`;
             }
             html += `</tr>`;
         }
         document.getElementById('chartGrid').innerHTML = html;
     });
 
-    function showModal(id) { 
-        document.querySelectorAll('.modal').forEach(m => m.style.display='none');
-        document.getElementById(id).style.display='flex'; 
-    }
+    function showModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
     function closeAll() { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }
 </script>
 </body>
