@@ -6,25 +6,87 @@
     <title>GOA SPECIAL VIP CHART</title>
     <style>
         :root { --dark-green: #1a024d; --gold: #FFD700; --vip-red: #e31e24; }
-        body { background: #FFBF82; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
-        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
-        .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; }
-        .ticker-wrap { background: #000; color: #fff; padding: 8px 0; border-bottom: 2px solid var(--gold); font-size: 14px; font-weight: bold; }
-        .desc { background: #fff; width: 90%; margin: 15px auto; padding: 15px; border-left: 5px solid var(--vip-red); text-align: left; }
-        .master-box { background: #000; margin: 15px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; }
-        .master-val { color: #fff; font-size: 30px; font-weight: 900; }
-        .chart-wrapper { width: 90%; margin: 10px auto; background: #fff; overflow-x: auto; border: 1px solid #000; }
-        .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; }
-        .vip-table td, .vip-table th { border: 1px solid #000; padding: 5px; text-align: center; }
+        body { background: #FFBF82; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
         
-        .btn-unlock-trigger { background: var(--vip-red); color: white; padding: 15px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; border: none; margin: 20px auto; display: block; }
+        .header { background: var(--dark-green); padding: 10px; border-bottom: 3px solid var(--gold); }
+        .header h1 { margin: 0; font-size: 18px; color: var(--gold); text-transform: uppercase; }
+
+        /* RUNNING NOTIFICATION STYLE */
+        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-family: sans-serif; font-size: 13px; font-weight: bold; overflow: hidden; }
+        .ticker-wrap marquee { vertical-align: middle; }
+        .ticker-wrap span { color: var(--gold); margin: 0 10px; }
+
+        .desc { background: #fff; width: 90%; margin: 15px auto; padding: 10px; border-left: 5px solid var(--vip-red); text-align: left; }
+        .desc ul { padding-left: 20px; font-size: 14px; margin: 0; }
+
+        .master-box { background: #000; margin: 15px auto; width: 90%; padding: 10px; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 10px var(--gold); }
+        .master-title { color: var(--gold); font-size: 12px; font-weight: bold; }
+        .master-val { color: #fff; font-size: 28px; font-weight: 900; }
+
+        .market-row { background: #fff; border: 1px solid #ddd; margin: 5px auto; width: 90%; padding: 10px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; }
+        .m-name { font-weight: 900; font-size: 16px; color: #333; margin-bottom: 5px; }
+        .m-res { font-weight: 900; font-size: 20px; color: var(--vip-red); }
+
+        /* CHART CONTAINER */
+        .chart-wrapper { width: 90%; margin: 10px auto; }
+        .chart-container { background: #fff; border: 1px solid #000; overflow-x: auto; }
         
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index: 2000; }
-        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 340px; }
-        .qr-wrapper img { width: 150px; height: 150px; }
+        .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; table-layout: fixed; }
+        .vip-table th { background: #ffff00; color: #000; font-size: 10px; padding: 6px 0; border: 1px solid #000; }
+        .vip-table td { border: 1px solid #000; height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; position: relative; }
         
+        /* DATE CELL - FIXED FOR 2 LINES */
+        .date-cell { background: #f0f0f0 !important; font-size: 11px; font-weight: bold; width: 65px !important; line-height: 1.3; white-space: normal; padding: 4px !important; text-align: center; }
+        .cell-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 8px; line-height: 0.9; width: 10px; font-weight: bold; }
+        
+        /* BIGGER CHART NUMBERS */
+        .j-main { font-size: 22px; font-weight: 900; color: #000; margin: 0 5px; }
+        .highlight-red .j-main, .highlight-red .p-vertical { color: var(--vip-red) !important; }
+
+        /* SINGLE LOCK CELL STYLE */
+        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; }
+        .lock-overlay { font-size: 18px; color: var(--vip-red); font-weight: bold; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
+
+        /* LOCK TRIGGER BUTTON BELOW CHART */
+        .btn-unlock-trigger { background: var(--vip-red); color: white; font-size: 16px; font-weight: bold; border: 2px solid var(--gold); padding: 12px 25px; border-radius: 30px; cursor: pointer; margin: 15px auto; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 10px; box-sizing: border-box; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 100%; max-width: 340px; border: 3px solid var(--dark-blue); text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .modal-content h3 { margin-top: 0; color: var(--dark-blue); }
+        .modal-content input[type="text"], .modal-content input[type="number"] { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+        
+        .btn-action { background: var(--dark-blue); color: var(--gold); border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 95%; margin-top: 10px; }
+        .btn-close { background: #777; color: white; margin-top: 5px; font-size: 12px; padding: 5px; width: auto; border-radius: 3px; border: none; cursor: pointer; }
+
+        /* PLAN BUTTONS */
+        .plan-box { border: 2px solid #ddd; padding: 12px; margin: 10px 0; border-radius: 8px; cursor: pointer; background: #f9f9f9; transition: 0.2s; }
+        .plan-box:hover { border-color: var(--vip-red); background: #fff5f5; }
+        .plan-title { font-weight: bold; font-size: 16px; color: #333; }
+        .plan-price { color: var(--vip-red); font-size: 18px; font-weight: 900; margin-top: 5px; }
+
+        /* SCANNER STYLE FOR LOCAL IMAGE */
+        .qr-wrapper { width: 150px; height: 150px; margin: 15px auto; background: #fff; border: 2px dashed #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .qr-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .timer-display { font-size: 32px; font-weight: bold; color: var(--vip-red); margin: 15px 0; letter-spacing: 2px; }
+        .success-msg { color: green; font-size: 22px; font-weight: bold; margin: 20px 0; }
+
+        /* FLOATING SOCIAL BUTTONS WITH REAL LOGOS */
+        .social-sticky { position: fixed; bottom: 20px; left: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .btn-social { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: none; cursor: pointer; transition: transform 0.2s; }
+        .btn-social:active { transform: scale(0.9); }
+        .btn-whatsapp { background: #25D366; }
+        .btn-telegram { background: #0088cc; }
+        .btn-social svg { width: 28px; height: 28px; fill: white; }
+
+        /* SCROLL BUTTONS WITH TEXT AND ARROWS */
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
-        .btn-scroll { background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); padding: 10px; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        .btn-scroll { width: 85px; height: 42px; border-radius: 8px; background: var(--dark-blue); color: var(--gold); border: 2px solid var(--gold); font-weight: bold; font-size: 10px; font-family: sans-serif; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; text-transform: uppercase; }
+        .btn-scroll span { font-size: 12px; }
     </style>
 </head>
 <body>
@@ -32,7 +94,9 @@
 <div class="header"><h1>GOA SPECIAL VIP CHART</h1></div>
 
 <div class="ticker-wrap">
-    <marquee>⚠️ आज का लीक गेम तैयार है! 💥 100% फिक्स जोड़ी के लिए 'REMOVE LOCK' पर क्लिक करें।</marquee>
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+        ⚠️ ध्यान दें: GOA SPECIAL VIP CHART का आज का लीक गेम तैयार है! <span>💥 100% फिक्स जोड़ी और अचूक पट्टी उपलब्ध है। 💥</span> हमारी सर्विस सबसे तेज़ और सबसे भरोसेमंद है। लीक गेम देखने के लिए नीचे दिए गए 'REMOVE LOCK' बटन पर क्लिक करें या सीधे WhatsApp / Telegram पर संपर्क करें। <span>🔥 आज ही जुड़ें और अपना सारा लॉस कवर करें! 🔥</span>
+    </marquee>
 </div>
 
 <div class="desc">
@@ -40,52 +104,251 @@
         <li>सबसे तेज़ और सटीक रिजल्ट यहाँ उपलब्ध हैं।</li>
         <li>एक्सपर्ट्स द्वारा तैयार किया गया VIP गेम।</li>
         <li>100% भरोसेमंद और सुरक्षित सर्विस।</li>
+        <li>आज ही जुड़ें और जीत की शुरुआत करें।</li>
     </ul>
 </div>
 
 <div class="master-box">
-    <div style="color:var(--gold); font-size:12px;">GOA SPECIAL VIP CHART RESULT</div>
+    <div class="master-title">GOA SPECIAL VIP CHART RESULT</div>
     <div class="master-val" id="vipVal">---</div>
 </div>
 
+<div id="liveMarketContainer"></div>
+
 <div class="chart-wrapper">
-    <table class="vip-table"><tbody id="chartGrid"></tbody></table>
+    <div class="chart-container">
+        <table class="vip-table">
+            <thead>
+                <tr>
+                    <th style="width:65px;">DATE</th>
+                    <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
+                </tr>
+            </thead>
+            <tbody id="chartGrid"></tbody>
+        </table>
+    </div>
 </div>
 
-<button class="btn-unlock-trigger" onclick="openStep1()">🔓 REMOVE LOCK</button>
+<button class="btn-unlock-trigger" id="unlockTriggerBtn" onclick="openStep1()">🔓 REMOVE LOCK</button>
+
+
+<div class="modal-overlay" id="modalStep1">
+    <div class="modal-content">
+        <h3>Unlock VIP Chart</h3>
+        <p style="font-size:13px; color:#666;">Kripya apni details bharein</p>
+        <input type="text" id="userName" placeholder="Apna Naam Daalein" required>
+        <input type="number" id="userPhone" placeholder="Mobile Number Daalein" required>
+        <button class="btn-action" onclick="openStep2()">Aage Badhein</button>
+        <button class="btn-close" onclick="closeAllModals()">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalStep2">
+    <div class="modal-content">
+        <h3>VIP Subscription Plans</h3>
+        <p style="font-size:13px; color:#666;">Koi ek plan select karein</p>
+        
+        <div class="plan-box" onclick="openStep3(799, '1 Din')">
+            <div class="plan-title">1 Din Ka Plan</div>
+            <div class="plan-price">₹799</div>
+        </div>
+        
+        <div class="plan-box" onclick="openStep3(1599, '5 Din')">
+            <div class="plan-title">5 Din Ka Plan</div>
+            <div class="plan-price">₹1599</div>
+        </div>
+        <button class="btn-close" onclick="closeAllModals()">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalStep3">
+    <div class="modal-content">
+        <h3 id="planHeading">Pay ₹799</h3>
+        <p style="font-size:13px; color:#666;">Neeche diye QR code ko scan karke pay karein</p>
+        
+        <div class="qr-wrapper">
+            <img src="paytm-qr.png.jpeg" alt="UPI QR Code">
+        </div>
+
+        <input type="text" id="utrInput" placeholder="Enter 12-Digit UTR / Txn ID" required>
+        <button class="btn-action" onclick="openStep4()">Aage Badhein</button>
+        <button class="btn-close" onclick="closeAllModals()">Close</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalStep4">
+    <div class="modal-content">
+        <h3>Payment Verification</h3>
+        <p style="font-size:13px; color:#555;">Kripya 2 minute prateeksha karein, aapka payment verify ho raha hai...</p>
+        
+        <div class="timer-display" id="timerBox">02:00</div>
+        
+        <div id="successBox" class="success-msg" style="display:none;">🎉 SUCCESS!</div>
+        <button class="btn-close" id="timerCloseBtn" onclick="closeAllModals()" style="display:none;">Close</button>
+    </div>
+</div>
+
+
+<div class="social-sticky">
+    <a href="https://wa.me/918103982813?text=Hello%20Master%20VIP" target="_blank" class="btn-social btn-whatsapp" title="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397 0 11.948 0c3.179.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.597-5.339 11.946-11.89 11.946-.193 0-.387-.002-.58-.005L0 24zm6.066-13.435c-.13-.217-.482-.347-.98-.596-.497-.248-2.338-1.155-2.698-1.286-.36-.131-.62-.196-.88.195-.26.391-1.008 1.286-1.233 1.547-.225.26-.45.293-.948.044-.497-.249-2.102-.775-4.004-2.472-1.48-1.32-2.48-2.949-2.77-3.446-.29-.497-.031-.766.218-1.014.224-.223.497-.58.746-.871.248-.29.332-.497.497-.83.166-.333.083-.622-.042-.871-.124-.249-1.008-2.43-1.382-3.326-.363-.873-.733-.756-1.008-.77l-.859-.014c-.296 0-.776.111-1.18.552-.404.441-1.544 1.511-1.544 3.682 0 2.171 1.58 4.268 1.802 4.563.222.295 3.108 4.746 7.528 6.657 1.052.454 1.873.725 2.514.929 1.057.336 2.021.289 2.783.175.849-.127 2.338-.957 2.666-1.884.328-.927.328-1.721.23-1.884z"/></svg>
+    </a>
+    <a href="https://t.me/YourUsername" target="_blank" class="btn-social btn-telegram" title="Telegram">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161l-1.875 8.835c-.141.628-.512.784-1.037.492l-2.859-2.107-1.378 1.327c-.153.153-.282.282-.577.282l.205-2.915 5.306-4.794c.23-.205-.05-.319-.358-.114l-6.558 4.128-2.825-.884c-.614-.192-.627-.614.128-.91l11.036-4.254c.512-.186.96.119.789.916z"/></svg>
+    </a>
+</div>
 
 <div class="scroll-sticky">
-    <button class="btn-scroll" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲ TOP</button>
-    <button class="btn-scroll" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">▼ DOWN</button>
+    <button onclick="scrollToTop()" class="btn-scroll" title="Go to Top">
+        <span>▲</span>
+        GO TO TOP
+    </button>
+    <button onclick="scrollToBottom()" class="btn-scroll" title="Go to Bottom">
+        <span>▼</span>
+        GO BOTTOM
+    </button>
 </div>
 
-<div id="modalStep1" class="modal-overlay"><div class="modal-content"><h3>Unlock VIP</h3><input type="text" id="userName" placeholder="Naam"> <input type="number" id="userPhone" placeholder="Mobile"> <button onclick="openStep2()">Aage Badhein</button></div></div>
-<div id="modalStep2" class="modal-overlay"><div class="modal-content"><h3>Plans</h3><button onclick="openStep3(799)">1 Din - ₹799</button> <button onclick="openStep3(1599)">5 Din - ₹1599</button></div></div>
-<div id="modalStep3" class="modal-overlay"><div class="modal-content"><h3>Pay</h3><div class="qr-wrapper"><img src="paytm-qr.png" alt="QR"></div><input type="text" id="utrInput" placeholder="Enter UTR"> <button onclick="openStep4()">Verify</button></div></div>
-<div id="modalStep4" class="modal-overlay"><div class="modal-content"><h3>Payment Verification</h3><div id="timerBox" style="font-size:40px; color:red;">02:00</div><div id="successBox" style="display:none; color:green; font-size:25px;">🎉 SUCCESS!</div><button id="closeBtn" style="display:none;" onclick="location.reload()">Close</button></div></div>
-
 <script>
+    const v = Math.random();
+    const LIVE_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Live&v=" + v;
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
+
+    fetch(LIVE_URL).then(r => r.text()).then(data => {
+        const rows = data.split('\n');
+        let html = '';
+        rows.forEach(row => {
+            let cols = row.split(',');
+            if(cols.length < 2) return;
+            let name = cols[0].replace(/"/g, '').trim();
+            let res = cols[1].replace(/"/g, '').trim();
+            if(name.toUpperCase().includes("GOA SPECIAL VIP")) {
+                document.getElementById('vipVal').innerText = res;
+            } else {
+                html += `<div class="market-row"><span class="m-name">${name}</span><span class="m-res">${res}</span></div>`;
+            }
+        });
+        document.getElementById('liveMarketContainer').innerHTML = html;
+    });
+
+    fetch(CHART_URL).then(r => r.text()).then(data => {
+        const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
+        let html = '';
+        
+        let totalRows = rows.length;
+        let lastRowWithData = 1;
+        let lastColWithData = 1;
+        
+        for(let i = 1; i < totalRows; i++) {
+            for(let j = 1; j <= 16; j += 3) {
+                let jd = (rows[i][j+1] || "").trim().replace(/"/g, '');
+                if(jd !== "" && jd !== "-") {
+                    lastRowWithData = i;
+                    lastColWithData = j;
+                }
+            }
+        }
+
+        let lockRow = lastRowWithData;
+        let lockCol = lastColWithData + 3;
+
+        if (lockCol > 16) {
+            lockCol = 1;
+            lockRow = lastRowWithData + 1;
+        }
+
+        for(let i = 1; i < totalRows; i++) {
+            let d = (rows[i][0] || "").trim().replace(/"/g, '');
+            html += `<tr><td class="date-cell">${d}</td>`;
+            
+            for(let j = 1; j <= 16; j += 3) {
+                let lp = (rows[i][j]||"").trim().replace(/"/g, ''), 
+                    jd = (rows[i][j+1]||"").trim().replace(/"/g, ''), 
+                    rp = (rows[i][j+2]||"").trim().replace(/"/g, '');
+                
+                let isRed = (jd.length == 2 && (jd[0] == jd[1] || Math.abs(jd[0] - jd[1]) == 5));
+                
+                if (i === lockRow && j === lockCol) {
+                    html += `<td class="single-lock-cell" onclick="openStep1()">
+                        <div class="lock-overlay">🔒 VIP</div>
+                    </td>`;
+                } 
+                else {
+                    if (jd !== "" && jd !== "-") {
+                        html += `<td class="${isRed?'highlight-red':''}">
+                            <div class="cell-wrap">
+                                <div class="p-vertical">${lp.split('').map(n=>`<span>${n}</span>`).join('')}</div>
+                                <div class="j-main">${jd}</div>
+                                <div class="p-vertical">${rp.split('').map(n=>`<span>${n}</span>`).join('')}</div>
+                            </div>
+                        </td>`;
+                    } else {
+                        html += `<td></td>`;
+                    }
+                }
+            }
+            html += `</tr>`;
+        }
+        document.getElementById('chartGrid').innerHTML = html;
+    });
+
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+
+    function closeAllModals() {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+    }
+
+    function openStep1() {
+        document.getElementById('modalStep1').style.display = 'flex';
+    }
+
+    function openStep2() {
+        let name = document.getElementById('userName').value.trim();
+        let phone = document.getElementById('userPhone').value.trim();
+        if(name == "" || phone == "") {
+            alert("Kripya Naam aur Mobile Number sahi se bharein!");
+            return;
+        }
+        closeAllModals();
+        document.getElementById('modalStep2').style.display = 'flex';
+    }
+
+    function openStep3(price, duration) {
+        closeAllModals();
+        document.getElementById('planHeading').innerText = `Pay ₹${price} (${duration})`;
+        document.getElementById('modalStep3').style.display = 'flex';
+    }
+
+    function openStep4() {
+        let utr = document.getElementById('utrInput').value.trim();
+        if(utr == "") {
+            alert("Kripya valid UTR ya Transaction ID dalein!");
+            return;
+        }
+        closeAllModals();
+        document.getElementById('modalStep4').style.display = 'flex';
+        document.getElementById('timerBox').style.display = 'block';
+        document.getElementById('successBox').style.display = 'none';
+        document.getElementById('timerCloseBtn').style.display = 'none';
+        startTimer(120);
+    }
+
     function startTimer(duration) {
-        let timer = duration, m, s;
-        let interval = setInterval(() => {
-            m = parseInt(timer / 60, 10); s = parseInt(timer % 60, 10);
-            document.getElementById('timerBox').innerText = (m<10?"0"+m:m) + ":" + (s<10?"0"+s:s);
+        let timer = duration, minutes, seconds;
+        let interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById('timerBox').innerText = minutes + ":" + seconds;
             if (--timer < 0) {
                 clearInterval(interval);
                 document.getElementById('timerBox').style.display = 'none';
                 document.getElementById('successBox').style.display = 'block';
-                document.getElementById('closeBtn').style.display = 'block';
+                document.getElementById('timerCloseBtn').style.display = 'inline-block';
             }
         }, 1000);
-    }
-    function openStep1() { document.getElementById('modalStep1').style.display = 'flex'; }
-    function openStep2() { document.getElementById('modalStep1').style.display = 'none'; document.getElementById('modalStep2').style.display = 'flex'; }
-    function openStep3(p) { document.getElementById('modalStep2').style.display = 'none'; document.getElementById('modalStep3').style.display = 'flex'; }
-    function openStep4() { 
-        if(document.getElementById('utrInput').value == "") return alert("Enter UTR");
-        document.getElementById('modalStep3').style.display = 'none';
-        document.getElementById('modalStep4').style.display = 'flex';
-        startTimer(120);
     }
 </script>
 </body>
