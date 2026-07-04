@@ -31,6 +31,10 @@
         
         .btn-unlock-trigger { background: var(--vip-red); color: white; padding: 15px 30px; border-radius: 30px; border: 2px solid var(--gold); font-weight: bold; margin: 20px; cursor: pointer; }
         
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 340px; border: 3px solid var(--dark-green); text-align: center; }
+        .qr-wrapper { width: 150px; height: 150px; margin: 15px auto; border: 2px dashed #333; }
+        
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
         .btn-scroll { width: 80px; padding: 10px; background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); font-size: 10px; font-weight: bold; cursor: pointer; border-radius: 5px; }
     </style>
@@ -59,11 +63,21 @@
     </div>
 </div>
 
-<button class="btn-unlock-trigger" onclick="alert('Lock open...')">🔓 REMOVE LOCK</button>
+<button class="btn-unlock-trigger" onclick="document.getElementById('modalStep2').style.display='flex'">🔓 REMOVE LOCK</button>
 
 <div class="scroll-sticky">
     <button class="btn-scroll" onclick="window.scrollTo({top:0, behavior:'smooth'})">TOP ▲</button>
     <button class="btn-scroll" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">BOTTOM ▼</button>
+</div>
+
+<div class="modal-overlay" id="modalStep2">
+    <div class="modal-content">
+        <h3>Payment QR Code</h3>
+        <div class="qr-wrapper">
+            <img src="paytm-qr.png.jpeg" alt="Paytm QR" style="width:100%; height:100%; object-fit:contain;">
+        </div>
+        <button class="btn-scroll" style="width:100%" onclick="document.getElementById('modalStep2').style.display='none'">Close</button>
+    </div>
 </div>
 
 <script>
@@ -74,7 +88,6 @@
         let html = '';
         let lastFilled = {r: 0, c: 0};
 
-        // Find last filled cell
         for(let i = 1; i < rows.length; i++) {
             for(let j = 1; j <= 16; j += 3) {
                 if((rows[i][j+1]||"").replace(/"/g, '').trim() !== "") {
@@ -93,7 +106,7 @@
                 let isLock = (i == lastFilled.r && j == lastFilled.c + 3) || (lastFilled.c == 16 && i == lastFilled.r + 1 && j == 1);
                 
                 if(isLock) {
-                    html += `<td class="single-lock-cell" onclick="alert('Lock')">🔒</td>`;
+                    html += `<td class="single-lock-cell" onclick="document.getElementById('modalStep2').style.display='flex'">🔒</td>`;
                 } else if(jd !== "") {
                     html += `<td><div class="cell-wrap"><div class="p-vertical">${lp.split('').join('<br>')}</div><div class="j-main">${jd}</div><div class="p-vertical">${rp.split('').join('<br>')}</div></div></td>`;
                 } else {
