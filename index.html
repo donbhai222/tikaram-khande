@@ -6,55 +6,50 @@
     <title>GOA SPECIAL VIP CHART</title>
     <style>
         :root { --dark-green: #064e3b; --gold: #FFD700; --vip-red: #e31e24; }
-        body { background: #f0fdf4; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
+        body { background: #f0fdf4; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 4px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; }
 
-        .ticker-wrap { background: #000; color: #fff; padding: 8px; border-bottom: 2px solid var(--gold); font-size: 14px; }
-        
-        .master-box { background: var(--dark-green); margin: 15px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; color: white; }
-        .master-val { font-size: 30px; font-weight: 900; color: var(--gold); }
-
-        .chart-wrapper { width: 90%; margin: 10px auto; background: #fff; overflow-x: auto; border: 1px solid #000; }
+        /* Chart Table Layout */
+        .chart-wrapper { width: 95%; margin: 15px auto; overflow-x: auto; background: #fff; border: 2px solid var(--dark-green); }
         .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; }
-        .vip-table td, .vip-table th { border: 1px solid #000; padding: 8px; text-align: center; }
-
-        .btn-unlock-trigger { background: var(--dark-green); color: var(--gold); padding: 15px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; border: 2px solid var(--gold); margin: 20px auto; display: block; }
-
-        .nirdesh { background: #fff; border: 2px solid var(--dark-green); padding: 15px; margin: 20px auto; width: 85%; border-radius: 10px; text-align: left; }
-        .nirdesh h4 { color: var(--dark-green); text-align: center; margin-top: 0; }
-
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index: 2000; }
-        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 340px; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 11px; padding: 8px; border: 1px solid #000; }
+        .vip-table td { border: 1px solid #000; height: 45px; background: #fff; text-align: center; padding: 2px; }
         
-        .btn-scroll { position: fixed; bottom: 20px; right: 15px; background: var(--dark-green); color: var(--gold); padding: 10px; border: 2px solid var(--gold); border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .date-cell { background: #e0f2f1 !important; font-weight: bold; font-size: 11px; }
+        .j-main { font-size: 18px; font-weight: 900; color: #000; }
+        
+        /* Buttons & Extras */
+        .btn-unlock { background: var(--dark-green); color: var(--gold); padding: 12px 25px; border-radius: 30px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; margin: 15px; }
+        .nirdesh { background: #fff; border: 2px solid var(--dark-green); padding: 10px; margin: 15px auto; width: 90%; border-radius: 8px; text-align: left; font-size: 13px; }
+        
+        /* Modal & Timer */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index: 2000; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 300px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA SPECIAL VIP CHART</h1></div>
 
-<div class="ticker-wrap"><marquee>⚠️ आज का लीक गेम तैयार है! फिक्स जोड़ी के लिए REMOVE LOCK पर क्लिक करें।</marquee></div>
-
-<div class="master-box">
-    <div>GOA SPECIAL VIP RESULT</div>
-    <div class="master-val" id="vipVal">---</div>
+<div class="chart-wrapper">
+    <table class="vip-table">
+        <thead>
+            <tr>
+                <th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
+            </tr>
+        </thead>
+        <tbody id="chartGrid"></tbody>
+    </table>
 </div>
 
-<div class="chart-wrapper"><table class="vip-table"><tbody id="chartGrid"></tbody></table></div>
-
-<button class="btn-unlock-trigger" onclick="openStep1()">🔓 REMOVE LOCK</button>
+<button class="btn-unlock" onclick="openStep1()">🔓 REMOVE LOCK</button>
 
 <div class="nirdesh">
     <h4>⚠️ विशेष निर्देश</h4>
-    <p>1. केवल भरोसेमंद जगह से खेलें।<br>2. पेमेंट के बाद UTR डालना अनिवार्य है।<br>3. किसी समस्या के लिए WhatsApp करें।<br>4. अपनी जिम्मेदारी से खेलें।</p>
+    <p>1. पेमेंट के बाद UTR/Transaction ID डालना न भूलें।<br>2. 2 मिनट इंतज़ार करें, ऑटोमैटिक Success दिखेगा।<br>3. गेम अपने रिस्क पर खेलें।</p>
 </div>
-
-<button class="btn-scroll" onclick="window.scrollTo({top:0, behavior:'smooth'})">▲ TOP</button>
-
-<div id="modalStep1" class="modal-overlay"><div class="modal-content"><h3>Details</h3><input type="text" id="userName" placeholder="Naam"> <button onclick="openStep2()">Next</button></div></div>
-<div id="modalStep4" class="modal-overlay"><div class="modal-content"><h3>Payment Verification</h3><div id="timerBox" style="font-size:40px; color:red;">02:00</div><div id="successBox" style="display:none; color:green; font-size:25px;">🎉 SUCCESS!</div></div></div>
 
 <script>
     const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart";
@@ -62,28 +57,25 @@
     fetch(CHART_URL).then(r => r.text()).then(data => {
         const rows = data.split('\n');
         let html = '';
-        rows.forEach(row => {
+        // यहाँ से आपका पुराना टेबल रेंडरिंग लॉजिक काम करेगा
+        rows.forEach((row, index) => {
+            if(index === 0) return; // हेडर छोड़ें
             let cols = row.split(',');
-            html += `<tr><td>${cols[0].replace(/"/g, '')}</td><td>${cols[1] ? cols[1].replace(/"/g, '') : '-'}</td></tr>`;
+            if(cols.length < 7) return;
+            html += `<tr>
+                <td class="date-cell">${cols[0].replace(/"/g, '')}</td>
+                <td><div class="j-main">${cols[1].replace(/"/g, '')}</div></td>
+                <td><div class="j-main">${cols[2].replace(/"/g, '')}</div></td>
+                <td><div class="j-main">${cols[3].replace(/"/g, '')}</div></td>
+                <td><div class="j-main">${cols[4].replace(/"/g, '')}</div></td>
+                <td><div class="j-main">${cols[5].replace(/"/g, '')}</div></td>
+                <td><div class="j-main">${cols[6].replace(/"/g, '')}</div></td>
+            </tr>`;
         });
         document.getElementById('chartGrid').innerHTML = html;
     });
 
-    function openStep1() { document.getElementById('modalStep1').style.display = 'flex'; }
-    function openStep2() { document.getElementById('modalStep1').style.display = 'none'; document.getElementById('modalStep4').style.display = 'flex'; startTimer(120); }
-    
-    function startTimer(duration) {
-        let timer = duration, m, s;
-        let interval = setInterval(() => {
-            m = parseInt(timer / 60, 10); s = parseInt(timer % 60, 10);
-            document.getElementById('timerBox').innerText = (m<10?"0"+m:m) + ":" + (s<10?"0"+s:s);
-            if (--timer < 0) {
-                clearInterval(interval);
-                document.getElementById('timerBox').style.display = 'none';
-                document.getElementById('successBox').style.display = 'block';
-            }
-        }, 1000);
-    }
+    function openStep1() { alert("Lock Opening..."); }
 </script>
 </body>
 </html>
