@@ -6,7 +6,7 @@
     <title>GOA SPECIAL CHART</title>
     <style>
         :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #e0f2f1; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        body { background: #f0f4f3; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; }
@@ -21,18 +21,20 @@
         .chart-wrapper { width: 90%; margin: 10px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 6px; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; }
+        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; font-weight: bold; }
 
         .btn-unlock-trigger { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; display: block; font-weight: bold; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 300px; text-align: center; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 320px; }
+        
+        .btn-action { background: var(--dark-green); color: var(--gold); border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold; margin-top: 10px; }
         
         .social-sticky { position: fixed; bottom: 20px; left: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-social { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: white; font-size: 20px; }
+        .btn-social { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
         
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-scroll { width: 70px; padding: 5px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
+        .btn-scroll { width: 80px; padding: 10px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -57,17 +59,36 @@
 
 <button class="btn-unlock-trigger" onclick="openStep1()">🔓 REMOVE LOCK</button>
 
+<!-- Modals -->
 <div class="modal-overlay" id="modalStep1">
     <div class="modal-content">
         <h3>Unlock Chart</h3>
-        <input type="text" id="userName" placeholder="Naam" style="width:90%; padding:8px; margin:5px;">
-        <button onclick="openStep2()" style="width:95%; padding:10px; background:green; color:white; border:none;">Aage Badhein</button>
+        <input type="text" id="userName" placeholder="Apna Naam" style="width:90%; padding:8px; margin:5px;">
+        <input type="number" id="userPhone" placeholder="Mobile Number" style="width:90%; padding:8px; margin:5px;">
+        <button class="btn-action" onclick="openStep2()">Aage Badhein</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalStep2">
+    <div class="modal-content">
+        <h3>Subscription Plans</h3>
+        <div onclick="openStep3(799, '1 Din')" style="padding:10px; border:1px solid #ccc; margin:5px; cursor:pointer;">1 Din - ₹799</div>
+        <div onclick="openStep3(1599, '5 Din')" style="padding:10px; border:1px solid #ccc; margin:5px; cursor:pointer;">5 Din - ₹1599</div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalStep3">
+    <div class="modal-content">
+        <h3 id="planHeading">Pay</h3>
+        <div style="border:2px dashed #000; padding:10px; margin:10px;">QR CODE IMAGE HERE</div>
+        <input type="text" id="utrInput" placeholder="Enter UTR/Txn ID" style="width:90%; padding:8px;">
+        <button class="btn-action" onclick="closeAllModals()">Verify</button>
     </div>
 </div>
 
 <div class="social-sticky">
-    <a href="#" class="btn-social" style="background:#25D366;">W</a>
-    <a href="#" class="btn-social" style="background:#0088cc;">T</a>
+    <a href="#" class="btn-social" style="background:#25D366;">WA</a>
+    <a href="#" class="btn-social" style="background:#0088cc;">TG</a>
 </div>
 
 <div class="scroll-sticky">
@@ -76,9 +97,30 @@
 </div>
 
 <script>
+    // GOOGLE SHEET DATA FETCHING LOGIC
+    const v = Math.random();
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
+
+    fetch(CHART_URL).then(r => r.text()).then(data => {
+        const rows = data.split('\n').filter(r => r.trim() !== '');
+        let html = '';
+        for(let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(',');
+            html += `<tr><td style="background:#eee;">${cols[0].replace(/"/g, '')}</td>`;
+            for(let j = 1; j <= 16; j += 3) {
+                let val = (cols[j+1] || "").replace(/"/g, '');
+                html += `<td>${val === "" ? "-" : val}</td>`;
+            }
+            html += `</tr>`;
+        }
+        document.getElementById('chartGrid').innerHTML = html;
+    });
+
+    // MODAL FUNCTIONS
     function openStep1() { document.getElementById('modalStep1').style.display = 'flex'; }
-    function openStep2() { alert("Next Step..."); }
-    // Fetch logic...
+    function openStep2() { document.getElementById('modalStep1').style.display='none'; document.getElementById('modalStep2').style.display='flex'; }
+    function openStep3(price, duration) { document.getElementById('modalStep2').style.display='none'; document.getElementById('modalStep3').style.display='flex'; document.getElementById('planHeading').innerText = `Pay ₹${price}`; }
+    function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
 </script>
 </body>
 </html>
