@@ -6,35 +6,33 @@
     <title>GOA SPECIAL CHART</title>
     <style>
         :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #f0f4f3; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         
-        .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
+        .header { background: var(--dark-green); padding: 15px; border-bottom: 4px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); text-transform: uppercase; }
 
-        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-size: 13px; font-weight: bold; }
+        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 8px 0; border-bottom: 2px solid var(--gold); font-size: 14px; font-weight: bold; }
         .ticker-wrap span { color: var(--gold); }
 
-        .master-box { background: #000; margin: 15px auto; width: 90%; padding: 10px; border: 2px solid var(--gold); border-radius: 10px; }
-        .master-title { color: var(--gold); font-size: 12px; font-weight: bold; }
-        .master-val { color: #fff; font-size: 28px; font-weight: 900; }
+        .master-box { background: #000; margin: 20px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; }
+        .master-title { color: var(--gold); font-size: 12px; }
+        .master-val { color: #fff; font-size: 30px; font-weight: 900; }
 
-        .chart-wrapper { width: 90%; margin: 10px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
+        .chart-wrapper { width: 92%; margin: 10px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 6px; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; font-weight: bold; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 11px; padding: 8px; border: 1px solid #000; }
+        .vip-table td { border: 1px solid #000; height: 45px; text-align: center; font-weight: bold; }
 
-        .btn-unlock-trigger { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; display: block; font-weight: bold; }
+        .btn-unlock { background: var(--vip-red); color: white; padding: 12px 30px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 20px auto; font-weight: bold; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 320px; }
-        
-        .btn-action { background: var(--dark-green); color: var(--gold); border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
+        .modal-content { background: #fff; padding: 20px; border-radius: 10px; width: 85%; max-width: 320px; }
         
         .social-sticky { position: fixed; bottom: 20px; left: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-social { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
+        .btn-social { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; }
         
         .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-scroll { width: 80px; padding: 10px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
+        .btn-scroll { width: 60px; padding: 8px; background: var(--dark-green); color: var(--gold); border: 1px solid var(--gold); border-radius: 5px; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -42,7 +40,7 @@
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
 
 <div class="ticker-wrap">
-    <marquee>GOA SPECIAL CHART का आज का गेम तैयार है! <span>💥 100% फिक्स जोड़ी उपलब्ध है। 💥</span></marquee>
+    <marquee>GOA SPECIAL CHART का आज का गेम अपडेट हो गया है! <span>💥 100% सटीक रिजल्ट यहाँ देखें। 💥</span></marquee>
 </div>
 
 <div class="master-box">
@@ -57,32 +55,13 @@
     </table>
 </div>
 
-<button class="btn-unlock-trigger" onclick="openStep1()">🔓 REMOVE LOCK</button>
+<button class="btn-unlock" onclick="document.getElementById('m1').style.display='flex'">🔓 REMOVE LOCK</button>
 
-<!-- Modals -->
-<div class="modal-overlay" id="modalStep1">
+<div id="m1" class="modal">
     <div class="modal-content">
-        <h3>Unlock Chart</h3>
-        <input type="text" id="userName" placeholder="Apna Naam" style="width:90%; padding:8px; margin:5px;">
-        <input type="number" id="userPhone" placeholder="Mobile Number" style="width:90%; padding:8px; margin:5px;">
-        <button class="btn-action" onclick="openStep2()">Aage Badhein</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="modalStep2">
-    <div class="modal-content">
-        <h3>Subscription Plans</h3>
-        <div onclick="openStep3(799, '1 Din')" style="padding:10px; border:1px solid #ccc; margin:5px; cursor:pointer;">1 Din - ₹799</div>
-        <div onclick="openStep3(1599, '5 Din')" style="padding:10px; border:1px solid #ccc; margin:5px; cursor:pointer;">5 Din - ₹1599</div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="modalStep3">
-    <div class="modal-content">
-        <h3 id="planHeading">Pay</h3>
-        <div style="border:2px dashed #000; padding:10px; margin:10px;">QR CODE IMAGE HERE</div>
-        <input type="text" id="utrInput" placeholder="Enter UTR/Txn ID" style="width:90%; padding:8px;">
-        <button class="btn-action" onclick="closeAllModals()">Verify</button>
+        <h3>Unlock Details</h3>
+        <input type="text" id="name" placeholder="Naam" style="width:90%; padding:8px; margin:5px;">
+        <button onclick="next(1)" style="width:95%; padding:10px; background:var(--dark-green); color:white; border:none;">Aage Badhein</button>
     </div>
 </div>
 
@@ -97,11 +76,11 @@
 </div>
 
 <script>
-    // GOOGLE SHEET DATA FETCHING LOGIC
+    // चार्ट लोड करने का लॉजिक
     const v = Math.random();
-    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
+    const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
 
-    fetch(CHART_URL).then(r => r.text()).then(data => {
+    fetch(URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '');
         let html = '';
         for(let i = 1; i < rows.length; i++) {
@@ -116,11 +95,10 @@
         document.getElementById('chartGrid').innerHTML = html;
     });
 
-    // MODAL FUNCTIONS
-    function openStep1() { document.getElementById('modalStep1').style.display = 'flex'; }
-    function openStep2() { document.getElementById('modalStep1').style.display='none'; document.getElementById('modalStep2').style.display='flex'; }
-    function openStep3(price, duration) { document.getElementById('modalStep2').style.display='none'; document.getElementById('modalStep3').style.display='flex'; document.getElementById('planHeading').innerText = `Pay ₹${price}`; }
-    function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    function next(s) { 
+        document.querySelectorAll('.modal').forEach(m => m.style.display='none');
+        if(s==1) alert("Payment Section..."); 
+    }
 </script>
 </body>
 </html>
