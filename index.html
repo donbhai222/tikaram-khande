@@ -2,19 +2,143 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOA SPECIAL CHART</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>GOA SPECIAL VIP CHART</title>
     <style>
-        :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
+        :root { 
+            --dark-green: #004d00; /* Updated Theme: Dark Green */
+            --gold: #FFD700; 
+            --vip-red: #e31e24; 
+            --light-bg: #FFFBF3; /* Slightly adjusted body bg for new theme */
+        }
+        body { background: var(--light-bg); font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
-        .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; }
-        .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
-        .vip-table { border-collapse: collapse; width: 95%; margin: 10px auto; background: white; table-layout: fixed; }
-        .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
-        .vip-tag { font-size: 9px; font-weight: bold; color: var(--vip-red); background: var(--gold); padding: 2px; display: block; }
-        .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
-        .p-vertical { display: flex; flex-direction: column; font-size: 9px; font-weight: bold; line-height: 1; }
-        .j-main { font-size: 16px; font-weight: 900; }
-        .lock-cell { cursor: pointer; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 1
+        .header h1 { margin: 0; font-size: 22px; color: var(--gold); text-transform: uppercase; font-weight: bold; }
+
+        /* RUNNING NOTIFICATION STYLE */
+        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 8px 0; border-bottom: 2px solid var(--gold); font-family: sans-serif; font-size: 14px; font-weight: bold; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .ticker-wrap marquee { vertical-align: middle; }
+        .ticker-wrap span { color: var(--gold); margin: 0 10px; }
+
+        /* UPDATED DESCRIPTION STYLE */
+        .desc { background: #f9f9f9; width: 90%; margin: 20px auto; padding: 15px; border-left: 5px solid var(--dark-green); border-right: 1px solid #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; text-align: left; border-radius: 5px; }
+        .desc ul { padding-left: 20px; font-size: 15px; margin: 0; color: #333; line-height: 1.6; }
+
+        .master-box { background: #000; margin: 15px auto; width: 90%; padding: 15px; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 15px var(--gold); }
+        .master-title { color: var(--gold); font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+        .master-val { color: #fff; font-size: 32px; font-weight: 900; margin-top: 5px; }
+
+        .market-row { background: #fff; border: 1px solid #ddd; margin: 8px auto; width: 90%; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .m-name { font-weight: 900; font-size: 18px; color: #333; margin-bottom: 4px; }
+        .m-res { font-weight: 900; font-size: 22px; color: var(--dark-green); }
+
+        /* CHART CONTAINER */
+        .chart-wrapper { width: 90%; margin: 20px auto; }
+        .chart-container { background: #fff; border: 1px solid #000; overflow-x: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; table-layout: fixed; }
+        .vip-table th { background: #fff3cd; color: #000; font-size: 11px; padding: 8px 2px; border: 1px solid #000; font-weight: bold; text-transform: uppercase; }
+        .vip-table td { border: 1px solid #000; height: 55px; background: #fff; vertical-align: middle; text-align: center; padding: 0; position: relative; }
+        
+        /* DATE CELL */
+        .date-cell { background: #e9ecef !important; font-size: 12px; font-weight: bold; width: 70px !important; line-height: 1.3; white-space: normal; padding: 4px !important; text-align: center; color: #333; }
+        .cell-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 9px; line-height: 0.9; width: 12px; font-weight: bold; color: #555; }
+        
+        /* BIGGER CHART NUMBERS */
+        .j-main { font-size: 24px; font-weight: 900; color: #000; margin: 0 6px; }
+        .highlight-red .j-main, .highlight-red .p-vertical { color: var(--vip-red) !important; }
+
+        /* SINGLE LOCK CELL STYLE */
+        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; }
+        .lock-overlay { font-size: 18px; color: var(--vip-red); font-weight: bold; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
+
+        /* LOCK TRIGGER BUTTON BELOW CHART */
+        .btn-unlock-trigger { background: var(--vip-red); color: white; font-size: 18px; font-weight: bold; border: 2px solid var(--gold); padding: 15px 30px; border-radius: 30px; cursor: pointer; margin: 25px auto; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s; animation: pulse 1.5s infinite; }
+        .btn-unlock-trigger:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+
+        /* NEW INSTRUCTION TEXT AREA */
+        .instruction-text { width: 85%; margin: 10px auto; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba; color: #856404; font-size: 13px; border-radius: 5px; font-style: italic; text-align: center;}
+
+        /* MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 10px; box-sizing: border-box; backdrop-filter: blur(3px); }
+        .modal-content { background: white; padding: 25px; border-radius: 15px; width: 100%; max-width: 360px; border: 4px solid var(--dark-green); text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .modal-content h3 { margin-top: 0; color: var(--dark-green); font-size: 20px; text-transform: uppercase; }
+        .modal-content input[type="text"], .modal-content input[type="number"] { width: 90%; padding: 12px; margin: 10px 0; border: 2px solid #ced4da; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .modal-content input:focus { border-color: var(--dark-green); outline: none; }
+        
+        .btn-action { background: var(--dark-green); color: var(--gold); border: none; padding: 12px 25px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 95%; margin-top: 15px; transition: background 0.3s; }
+        .btn-action:hover { background: #003300; }
+        .btn-close { background: #6c757d; color: white; margin-top: 10px; font-size: 13px; padding: 8px 15px; width: auto; border-radius: 5px; border: none; cursor: pointer; transition: background 0.3s; }
+        .btn-close:hover { background: #5a6268; }
+
+        /* PLAN BUTTONS */
+        .plan-box { border: 2px solid #ced4da; padding: 15px; margin: 12px 0; border-radius: 10px; cursor: pointer; background: #fff; transition: all 0.3s; display: flex; justify-content: space-between; align-items: center; }
+        .plan-box:hover { border-color: var(--dark-green); background: #f1f9f1; transform: translateX(5px); }
+        .plan-info { text-align: left; }
+        .plan-title { font-weight: bold; font-size: 18px; color: #333; }
+        .plan-desc { font-size: 13px; color: #666; margin-top: 2px; }
+        .plan-price { color: var(--dark-green); font-size: 22px; font-weight: 900; }
+
+        /* SCANNER STYLE FOR LOCAL IMAGE */
+        .qr-wrapper { width: 180px; height: 180px; margin: 20px auto; background: #fff; border: 3px solid var(--dark-green); border-radius: 10px; padding: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); }
+        .qr-wrapper img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .timer-display { font-size: 36px; font-weight: bold; color: var(--vip-red); margin: 20px 0; letter-spacing: 3px; font-family: monospace; }
+        .success-msg { color: #28a745; font-size: 24px; font-weight: bold; margin: 25px 0; text-transform: uppercase; }
+
+        /* FLOATING SOCIAL BUTTONS WITH REAL LOGOS */
+        .social-sticky { position: fixed; bottom: 25px; left: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .btn-social { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
+        .btn-social:hover { transform: scale(1.1); box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+        .btn-social:active { transform: scale(1.0); }
+        .btn-whatsapp { background: #25D366; }
+        .btn-telegram { background: #0088cc; }
+        .btn-social svg { width: 30px; height: 30px; fill: white; }
+
+        /* SCROLL BUTTONS */
+        .scroll-sticky { position: fixed; bottom: 25px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .btn-scroll { width: 95px; height: 45px; border-radius: 10px; background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); font-weight: bold; font-size: 11px; font-family: sans-serif; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.3; text-transform: uppercase; transition: all 0.3s; }
+        .btn-scroll:hover { background: #003300; transform: translateX(-2px); }
+        .btn-scroll span { font-size: 14px; margin-bottom: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="header"><h1>GOA SPECIAL VIP CHART</h1></div>
+
+<div class="ticker-wrap">
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+        ⚠️ ध्यान दें: GOA SPECIAL VIP चार्ट का आज का लीक गेम तैयार है! <span>💥 100% फिक्स जोड़ी और अचूक पट्टी उपलब्ध है। 💥</span> हमारी सर्विस सबसे तेज़ और सबसे भरोसेमंद है। लीक गेम देखने के लिए नीचे दिए गए 'REMOVE LOCK' बटन पर क्लिक करें या सीधे WhatsApp / Telegram पर संपर्क करें। <span>🔥 आज ही जुड़ें और अपना सारा लॉस कवर करें! 🔥</span>
+    </marquee>
+</div>
+
+<div class="desc">
+    <ul>
+        <li>सबसे तेज़ और सटीक रिजल्ट यहाँ उपलब्ध हैं।</li>
+        <li>एक्सपर्ट्स द्वारा तैयार किया गया VIP गेम।</li>
+        <li>100% भरोसेमंद और सुरक्षित सर्विस।</li>
+        <li>आज ही जुड़ें और जीत की शुरुआत करें।</li>
+    </ul>
+</div>
+
+<div class="master-box">
+    <div class="master-title">MASTER VIP CHART RESULT</div>
+    <div class="master-val" id="vipVal">---</div>
+</div>
+
+<div id="liveMarketContainer"></div>
+
+<div class="chart-wrapper">
+    <div class="chart-container">
+        <table class="vip-table">
+            <thead>
+                <tr>
+                    <th style="width:70px;">DATE</th>
+                    <th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th>
+                </tr>
+            </thead>
+            <tbody id="chartGrid"></tbody>
