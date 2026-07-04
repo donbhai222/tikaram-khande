@@ -2,45 +2,44 @@
 <html lang="hi">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOA SPECIAL CHART</title>
     <style>
         :root { --dark-green: #004d40; --gold: #FFD700; --vip-red: #d32f2f; }
-        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
+        body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 50px; }
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
         
         .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; }
         .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
         
-        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; min-height: 200px; }
-        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
+        .vip-table { border-collapse: collapse; width: 100%; }
         .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 5px; border: 1px solid #000; }
-        .date-cell { width: 70px !important; font-size: 10px; font-weight: bold; background: #eee; padding: 5px !important; }
-        .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
+        .vip-table td { border: 1px solid #000; height: 50px; text-align: center; }
         
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
-        .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; line-height: 0.9; }
-        .j-main { font-size: 18px; font-weight: 900; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 8px; font-weight: bold; }
+        .j-main { font-size: 16px; font-weight: 900; }
         
-        .lock-cell { font-size: 25px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
+        .lock-cell { font-size: 20px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .btn-unlock { background: var(--vip-red); color: white; padding: 10px 20px; border-radius: 20px; border: 2px solid var(--gold); cursor: pointer; margin: 10px auto; font-weight: bold; }
         
-        .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; }
+        .modal { display:none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
-        .btn-action { background:var(--dark-green); color:var(--gold); border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
-<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे सटीक रिजल्ट के लिए यहाँ क्लिक करें।</div>
+<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे सटीक रिजल्ट।</div>
 
 <div class="chart-wrapper">
-    <table class="vip-table">
-        <thead><tr><th style="width:70px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
-        <tbody id="chartGrid"><tr><td colspan="7">Loading...</td></tr></tbody>
+    <table class="vip-table" id="vipTable">
+        <thead><tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>
+        <tbody id="chartGrid"><tr><td colspan="7">Loading data...</td></tr></tbody>
     </table>
 </div>
 
@@ -48,66 +47,52 @@
     <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 सेल पर क्लिक करें।<br>• पेमेंट के बाद UTR दर्ज करें।<br>• 2 मिनट इंतज़ार करें।
 </div>
 
-<button class="btn-unlock" onclick="showModal('m1')">🔓 REMOVE LOCK</button>
+<button class="btn-unlock" onclick="openM('m1')">🔓 UNLOCK CHART</button>
 
-<div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="name" placeholder="Naam" style="width:90%"><input id="phone" placeholder="Mobile" style="width:90%; margin:5px 0;"><button class="btn-action" onclick="showModal('m2')">Next</button></div></div>
-<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹799 Plan</div><div onclick="showModal('m3')" style="border:1px solid #000; padding:10px; margin:5px; cursor:pointer;">₹1599 Plan</div></div></div>
-<div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="utr" placeholder="Enter UTR" style="width:90%"><button class="btn-action" onclick="startTimer()">Verify</button><div id="timerDisplay" style="margin-top:10px; font-weight:bold;"></div></div></div>
+<div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="n" placeholder="Name" style="width:90%"><button onclick="openM('m2')" style="width:95%; margin-top:10px;">Next</button></div></div>
+<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="openM('m3')" style="padding:10px; border:1px solid #000; margin:5px;">₹799 Plan</div></div></div>
+<div id="m3" class="modal"><div class="modal-content"><h3>Payment</h3><input id="u" placeholder="Enter UTR" style="width:90%"><button onclick="startT()" style="width:95%; margin-top:10px;">Verify</button><div id="tD" style="margin-top:10px;"></div></div></div>
 
 <script>
-    // यह कोड तभी चलेगा जब पेज ब्राउज़र में पूरी तरह लोड हो जाएगा
-    window.onload = function() {
-        const URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
-
-        fetch(URL)
-        .then(r => r.text())
-        .then(data => {
-            const rows = data.split('\n').filter(r => r.trim() !== '');
+    // डिप्लॉयमेंट एरर से बचने के लिए ये फंक्शन सीधे लोड होगा
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart";
+        
+        fetch(url)
+        .then(res => res.text())
+        .then(csv => {
+            const rows = csv.split('\n').filter(r => r.trim() !== '');
             let html = '';
-            let foundLock = false;
+            let lockFound = false;
 
             for(let i = 1; i < rows.length; i++) {
                 let cols = rows[i].split(',');
-                if(cols.length < 2) continue; // डेटा एरर से बचने के लिए
-
-                html += `<tr><td class="date-cell">${cols[0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
+                html += `<tr><td style="font-size:9px;">${cols[0].replace(/"/g, '')}</td>`;
                 for(let j = 1; j <= 16; j += 3) {
-                    let cellData = (cols[j+1] || "").trim();
-                    if (cellData === "" && !foundLock) {
-                        html += `<td class="lock-cell" onclick="showModal('m1')">🔒</td>`;
-                        foundLock = true;
+                    let val = (cols[j+1] || "").trim().replace(/"/g, '');
+                    if (val === "" && !lockFound) {
+                        html += `<td class="lock-cell" onclick="openM('m1')">🔒</td>`;
+                        lockFound = true;
                     } else {
-                        let p1 = (cols[j] || "").replace(/"/g, '').split('');
-                        let main = cellData.replace(/"/g, '');
-                        let p2 = (cols[j+2] || "").replace(/"/g, '').split('');
-                        html += `<td><div class="cell-wrap"><div class="p-vertical">${p1.map(n=>`<span>${n}</span>`).join('')}</div><div class="j-main">${main || "-"}</div><div class="p-vertical">${p2.map(n=>`<span>${n}</span>`).join('')}</div></div></td>`;
+                        html += `<td><div class="cell-wrap"><div class="p-vertical">${cols[j]||''}</div><div class="j-main">${val||'-'}</div><div class="p-vertical">${cols[j+2]||''}</div></div></td>`;
                     }
                 }
                 html += `</tr>`;
             }
             document.getElementById('chartGrid').innerHTML = html;
-        })
-        .catch(err => {
-            console.error("Fetch Error:", err);
-            document.getElementById('chartGrid').innerHTML = "<tr><td colspan='7'>Error Loading Chart</td></tr>";
         });
-    };
+    });
 
-    function showModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
+    function openM(id) { 
+        document.querySelectorAll('.modal').forEach(m => m.style.display='none');
+        document.getElementById(id).style.display='flex'; 
+    }
     
-    function startTimer() {
-        let utr = document.getElementById('utr').value;
-        if(utr.length < 5) { alert("Please enter valid UTR"); return; }
-        
-        let timer = 120, display = document.getElementById('timerDisplay');
-        let interval = setInterval(() => {
-            let m = parseInt(timer / 60, 10), s = parseInt(timer % 60, 10);
-            display.innerText = `Verifying... ${m}:${s < 10 ? '0'+s : s}`;
-            if (--timer < 0) { 
-                clearInterval(interval); 
-                display.innerHTML = "<span style='color:lime;'>✅ SUCCESS!</span>"; 
-                setTimeout(() => { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); }, 1500); 
-            }
+    function startT() {
+        let t = 120, d = document.getElementById('tD');
+        let i = setInterval(() => {
+            d.innerText = "Verifying: " + t-- + "s";
+            if (t < 0) { clearInterval(i); d.innerHTML = "✅ SUCCESS!"; setTimeout(()=>location.reload(), 2000); }
         }, 1000);
     }
 </script>
