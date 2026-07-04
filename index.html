@@ -17,9 +17,10 @@
         .vip-table th { background: var(--dark-green); color: var(--gold); padding: 4px; border: 1px solid #000; word-wrap: break-word; }
         .vip-table td { border: 1px solid #000; height: 40px; text-align: center; vertical-align: middle; }
         
-        /* Date Column Fix - 2 lines */
-        .date-cell { width: 40px; font-weight: bold; line-height: 1.1; }
+        /* Footer Style */
+        .footer-note { margin: 20px auto; width: 90%; padding: 15px; background: var(--dark-green); color: white; border-radius: 10px; font-size: 13px; line-height: 1.5; border: 2px solid var(--gold); }
         
+        .date-cell { width: 40px; font-weight: bold; line-height: 1.1; }
         .p-vertical { display: flex; flex-direction: column; font-size: 7px; line-height: 0.8; font-weight: bold; width: 10px; }
         .j-main { font-size: 14px; font-weight: 900; margin: 0 4px; }
         .cell-wrap { display: flex; align-items: center; justify-content: center; padding: 1px; }
@@ -57,6 +58,12 @@
 </div>
 
 <button class="btn-unlock-trigger" onclick="openModal('modalStep1')">🔓 REMOVE LOCK</button>
+
+<!-- Footer Section -->
+<div class="footer-note">
+    <strong style="color:var(--gold);">BOMBAY SPECIAL VIP CHART</strong><br>
+    यह चार्ट पूरी तरह से विश्वसनीय और अनुभवी विशेषज्ञों द्वारा बनाया गया है। हमारे साथ जुड़कर आप अपने पुराने लॉस को आसानी से रिकवर कर सकते हैं। समय की पाबंदी और सटीकता हमारी पहचान है।
+</div>
 
 <div class="scroll-sticky">
     <button class="btn-scroll" onclick="window.scrollTo(0,0)">▲ TOP</button>
@@ -112,7 +119,6 @@
 
         let html = '';
         for(let i = 1; i < rows.length; i++) {
-            // DATE cell class added
             html += `<tr><td class="date-cell" style="background:#f0f0f0;">${rows[i][0].replace(/"/g, '').replace(' ', '<br>')}</td>`;
             for(let j = 1; j <= 16; j += 3) {
                 if(i == lockR && j == lockC) {
