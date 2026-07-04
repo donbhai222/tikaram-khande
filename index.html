@@ -9,35 +9,25 @@
         body { background: #f0f4f3; font-family: sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         .header { background: var(--dark-green); padding: 15px; border-bottom: 3px solid var(--gold); }
         .header h1 { margin: 0; font-size: 20px; color: var(--gold); }
-        
         .box { background: linear-gradient(135deg, #004d40, #00796b); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; }
         .instr-box { background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 15px; margin: 15px auto; width: 90%; border-radius: 10px; text-align: left; font-size: 13px; }
-        
-        .chart-wrapper { width: 95%; margin: 15px auto; background: #fff; border: 1px solid #000; overflow-x: auto; }
-        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        .vip-table { border-collapse: collapse; width: 100%; table-layout: fixed; background: white; }
         .vip-table td { border: 1px solid #000; height: 60px; text-align: center; padding: 2px; }
-        
+        .vip-tag { font-size: 10px; font-weight: bold; color: var(--vip-red); background: var(--gold); padding: 2px; border-radius: 3px; }
         .cell-wrap { display: flex; align-items: center; justify-content: center; height: 100%; gap: 5px; }
         .p-vertical { display: flex; flex-direction: column; font-size: 9px; font-weight: bold; line-height: 1; }
         .j-main { font-size: 16px; font-weight: 900; }
-        
-        .lock-cell { font-size: 20px; cursor: pointer; background: #fff5f5; animation: blink 1s infinite; }
+        .lock-cell { cursor: pointer; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        .btn-unlock { background: var(--vip-red); color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); cursor: pointer; margin: 15px auto; font-weight: bold; }
-        
-        .sticky-nav { position: fixed; bottom: 20px; right: 10px; display: flex; flex-direction: column; gap: 10px; }
-        .btn-nav { background: var(--dark-green); color: var(--gold); border: 1px solid #000; padding: 8px; font-size: 10px; cursor: pointer; border-radius: 5px; }
-        
         .modal { display:none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
-        .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:300px; }
+        .modal-content { background:white; padding:20px; border-radius:10px; width:80%; max-width:350px; }
+        .plan-box { border: 2px solid #000; padding: 10px; margin: 5px; cursor: pointer; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>GOA SPECIAL CHART</h1></div>
-
-<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे सटीक रिजल्ट के लिए यहाँ विजिट करें।</div>
+<div class="box">✨ <b>GOA SPECIAL CHART</b> ✨<br>सबसे सटीक रिजल्ट।</div>
 
 <div class="chart-wrapper">
     <table class="vip-table" id="vipTable">
@@ -46,27 +36,27 @@
 </div>
 
 <div class="instr-box">
-    <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 सेल पर क्लिक करके अनलॉक करें।<br>• पेमेंट के बाद UTR दर्ज करें और 2 मिनट प्रतीक्षा करें।
+    <b>महत्वपूर्ण निर्देश:</b><br>• 🔒 VIP पर क्लिक करें।<br>• पेमेंट के बाद UTR/Transaction ID दर्ज करें।
 </div>
 
-<button class="btn-unlock" onclick="openM('m1')">🔓 REMOVE LOCK</button>
+<div id="m1" class="modal"><div class="modal-content"><h3>Unlock VIP</h3>
+    <input id="n" placeholder="Name" style="width:90%; padding:8px; margin-bottom:5px;">
+    <input id="p" placeholder="Mobile Number" type="number" style="width:90%; padding:8px;">
+    <button onclick="openM('m2')" style="width:95%; margin-top:10px; padding:10px;">Next</button>
+</div></div>
 
-<div class="sticky-nav">
-    <button class="btn-nav" onclick="window.scrollTo(0,0)">TOP</button>
-    <button class="btn-nav" onclick="window.scrollTo(0,document.body.scrollHeight)">BOTTOM</button>
-</div>
+<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan / प्लान चुनें</h3>
+    <div class="plan-box" onclick="openM('m3')">₹799 - Daily Plan / दैनिक प्लान</div>
+    <div class="plan-box" onclick="openM('m3')">₹1599 - Monthly Plan / मासिक प्लान</div>
+</div></div>
 
-<div id="m1" class="modal"><div class="modal-content"><h3>Unlock</h3><input id="n" placeholder="Name" style="width:90%"><button onclick="openM('m2')" style="width:95%; margin-top:10px;">Next</button></div></div>
-<div id="m2" class="modal"><div class="modal-content"><h3>Select Plan</h3><div onclick="openM('m3')" style="padding:10px; border:1px solid #000; cursor:pointer;">₹799 Plan</div></div></div>
-<div id="m3" class="modal">
-    <div class="modal-content">
-        <h3>Payment</h3>
-        <img src="paytm-qr.png.jpeg" alt="QR" style="width:100%; max-width:200px; margin:10px 0;">
-        <input id="u" placeholder="Enter UTR" style="width:90%">
-        <button onclick="startT()" style="width:95%; margin-top:10px;">Verify</button>
-        <div id="tD" style="margin-top:10px;"></div>
-    </div>
-</div>
+<div id="m3" class="modal"><div class="modal-content">
+    <h3>Payment</h3>
+    <img src="paytm-qr.png.jpeg" style="width:100%; max-width:150px;">
+    <input id="u" placeholder="Enter UTR" style="width:90%; padding:8px; margin-top:10px;">
+    <button onclick="startT()" style="width:95%; margin-top:10px; padding:10px;">Verify</button>
+    <div id="tD" style="margin-top:10px; font-weight:bold;"></div>
+</div></div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -85,15 +75,15 @@
                 }
             }
 
-            let lockRow = lastRow, lockCol = lastCol + 3;
-            if(lockCol > 16) { lockCol = 1; lockRow = lastRow + 1; }
+            let vipRow = lastRow, vipCol = lastCol + 3;
+            if(vipCol > 16) { vipCol = 1; vipRow = lastRow + 1; }
 
             let html = '';
             for(let i = 0; i < grid.length; i++) {
                 html += `<tr><td style="font-size:9px;">${grid[i][0].replace(/"/g, '')}</td>`;
                 for(let j = 1; j <= 16; j += 3) {
-                    if(i === lockRow && j === lockCol) {
-                        html += `<td class="lock-cell" onclick="openM('m1')">🔒</td>`;
+                    if(i === vipRow && j === vipCol) {
+                        html += `<td class="lock-cell" onclick="openM('m1')"><div class="vip-tag">VIP</div>🔒</td>`;
                     } else {
                         let p1 = (grid[i][j] || "").replace(/"/g, '').split('').join('<br>');
                         let val = (grid[i][j+1] || "").trim().replace(/"/g, '');
