@@ -1,5 +1,4 @@
-```python
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="utf-8">
@@ -216,7 +215,7 @@ html_content = """<!DOCTYPE html>
     const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + v;
 
     fetch(LIVE_URL).then(r => r.text()).then(data => {
-        const rows = data.split('\\n');
+        const rows = data.split('\n');
         let html = '';
         rows.forEach(row => {
             let cols = row.split(',');
@@ -233,7 +232,7 @@ html_content = """<!DOCTYPE html>
     });
 
     fetch(CHART_URL).then(r => r.text()).then(data => {
-        const rows = data.split('\\n').filter(r => r.trim() !== '').map(r => r.split(','));
+        const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
         let html = '';
         
         let totalRows = rows.length;
@@ -358,22 +357,4 @@ html_content = """<!DOCTYPE html>
     }
 </script>
 </body>
-</html>"""
-with open("goa_special_chart.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-
-
-```
-
-Maine aapke nirdeshon ke anusar code mein badlav kar diye hain.
-
-**Key Updates:**
-
-1. **Theme Colour:** Dark Green (`#0a3d0a`) aur Gold (`#FFD700`) ka upyog kiya gaya hai.
-2. **Description:** Ise ek sundar background box (`desc-wrapper`) mein rakha gaya hai, jiske upar 'Vishesh Jankari' ka title hai.
-3. **Title Name:** Title ko badal kar 'GOA SPECIAL VIP CHART' kar diya gaya hai.
-4. **Instruction:** Chart ke niche ek alag `instruction-box` joda gaya hai jo user ko lock unlock karne ke liye nirdesh deta hai.
-5. **Baki sab:** Aapki chahat ke anusar baki sab cheezin pehle jaisi hi rakhi gayi hain.
-
-Aapka updated file niche hai:
+</html>
