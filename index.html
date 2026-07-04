@@ -6,41 +6,33 @@
     <title>GOA SPECIAL VIP CHART</title>
     <style>
         :root { --dark-green: #0a3d0a; --gold: #FFD700; --vip-red: #e31e24; }
-        body { background: #e8f5e9; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 80px; }
+        body { background: #e8f5e9; font-family: 'Arial Narrow', sans-serif; text-align: center; margin: 0; padding-bottom: 100px; }
         
         .header { background: var(--dark-green); padding: 15px; border-bottom: 4px solid var(--gold); }
-        .header h1 { margin: 0; font-size: 22px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+        .header h1 { margin: 0; font-size: 22px; color: var(--gold); text-transform: uppercase; }
 
-        .ticker-wrap { width: 100%; background: #000; color: #fff; padding: 6px 0; border-bottom: 2px solid var(--gold); font-size: 13px; font-weight: bold; overflow: hidden; }
-        
-        /* CENTERED DESCRIPTION BOX */
-        .desc-box { 
-            background: var(--dark-green); 
-            color: #fff; 
-            width: 90%; 
-            margin: 20px auto; 
-            padding: 20px; 
-            border-radius: 15px; 
-            border: 3px solid var(--gold); 
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .desc-box h3 { margin: 0 0 10px 0; color: var(--gold); font-size: 18px; text-transform: uppercase; }
-        .desc-box ul { list-style: none; padding: 0; font-size: 15px; }
-        .desc-box ul li { margin: 8px 0; font-weight: bold; }
+        .desc-box { background: var(--dark-green); color: #fff; width: 90%; margin: 20px auto; padding: 20px; border-radius: 15px; border: 3px solid var(--gold); text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .desc-box h3 { margin: 0 0 10px 0; color: var(--gold); }
+        .desc-box ul { list-style: none; padding: 0; font-size: 15px; font-weight: bold; }
 
         .chart-wrapper { width: 90%; margin: 20px auto; }
         .chart-container { background: #fff; border: 2px solid var(--dark-green); overflow-x: auto; }
         .vip-table { border-collapse: collapse; width: 100%; min-width: 320px; table-layout: fixed; }
-        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 12px; padding: 10px 0; border: 1px solid #000; }
-        .vip-table td { border: 1px solid #000; height: 50px; background: #fff; vertical-align: middle; text-align: center; padding: 0; }
+        .vip-table th { background: var(--dark-green); color: var(--gold); font-size: 10px; padding: 8px 0; border: 1px solid #000; }
+        .vip-table td { border: 1px solid #000; height: 50px; vertical-align: middle; text-align: center; padding: 0; }
         
-        .date-cell { background: #f0f0f0 !important; font-size: 11px; font-weight: bold; width: 65px !important; }
-        .j-main { font-size: 22px; font-weight: 900; color: #000; }
-        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; color: var(--vip-red); font-weight: bold; }
+        .date-cell { background: #f0f0f0 !important; font-size: 11px; font-weight: bold; }
+        .cell-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        .p-vertical { display: flex; flex-direction: column; font-size: 8px; line-height: 0.9; width: 10px; font-weight: bold; }
+        .j-main { font-size: 20px; font-weight: 900; margin: 0 5px; }
         
-        .instruction-box { background: #fff; color: var(--dark-green); width: 90%; margin: 20px auto; padding: 15px; border-radius: 8px; border: 2px dashed var(--dark-green); font-weight: bold; }
-        .btn-unlock-trigger { background: var(--vip-red); color: white; font-size: 16px; font-weight: bold; padding: 15px 30px; border-radius: 30px; cursor: pointer; border: 2px solid var(--gold); margin: 10px; }
+        .single-lock-cell { background: #fff5f5 !important; cursor: pointer; animation: flashBg 2s infinite; }
+        @keyframes flashBg { 0% { background: #fff5f5; } 50% { background: #ffe0e0; } 100% { background: #fff5f5; } }
+        
+        .btn-unlock-trigger { background: var(--vip-red); color: white; padding: 15px 30px; border-radius: 30px; border: 2px solid var(--gold); font-weight: bold; margin: 20px; cursor: pointer; }
+        
+        .scroll-sticky { position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .btn-scroll { width: 80px; padding: 10px; background: var(--dark-green); color: var(--gold); border: 2px solid var(--gold); font-size: 10px; font-weight: bold; cursor: pointer; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -60,32 +52,53 @@
     <div class="chart-container">
         <table class="vip-table">
             <thead>
-                <tr><th style="width:65px;">DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
+                <tr><th>DATE</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>
             </thead>
             <tbody id="chartGrid"></tbody>
         </table>
     </div>
 </div>
 
-<div class="instruction-box">
-    🔒 Chart unlock karne ke liye niche click karein.
+<button class="btn-unlock-trigger" onclick="alert('Lock open...')">🔓 REMOVE LOCK</button>
+
+<div class="scroll-sticky">
+    <button class="btn-scroll" onclick="window.scrollTo({top:0, behavior:'smooth'})">TOP ▲</button>
+    <button class="btn-scroll" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">BOTTOM ▼</button>
 </div>
 
-<button class="btn-unlock-trigger" onclick="alert('Step 1 open...')">🔓 REMOVE LOCK</button>
-
 <script>
-    // Chart Render Logic
     const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
+    
     fetch(CHART_URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
         let html = '';
+        let lastFilled = {r: 0, c: 0};
+
+        // Find last filled cell
         for(let i = 1; i < rows.length; i++) {
-            let d = rows[i][0].replace(/"/g, '');
-            html += `<tr><td class="date-cell">${d}</td>`;
             for(let j = 1; j <= 16; j += 3) {
-                let jd = (rows[i][j+1] || "").replace(/"/g, '').trim();
-                if(i === 1 && j === 1) html += `<td class="single-lock-cell">🔒 VIP</td>`;
-                else html += `<td><div class="j-main">${jd}</div></td>`;
+                if((rows[i][j+1]||"").replace(/"/g, '').trim() !== "") {
+                    lastFilled = {r: i, c: j};
+                }
+            }
+        }
+
+        for(let i = 1; i < rows.length; i++) {
+            html += `<tr><td class="date-cell">${rows[i][0].replace(/"/g, '')}</td>`;
+            for(let j = 1; j <= 16; j += 3) {
+                let lp = (rows[i][j]||"").replace(/"/g, '').trim();
+                let jd = (rows[i][j+1]||"").replace(/"/g, '').trim();
+                let rp = (rows[i][j+2]||"").replace(/"/g, '').trim();
+                
+                let isLock = (i == lastFilled.r && j == lastFilled.c + 3) || (lastFilled.c == 16 && i == lastFilled.r + 1 && j == 1);
+                
+                if(isLock) {
+                    html += `<td class="single-lock-cell" onclick="alert('Lock')">🔒</td>`;
+                } else if(jd !== "") {
+                    html += `<td><div class="cell-wrap"><div class="p-vertical">${lp.split('').join('<br>')}</div><div class="j-main">${jd}</div><div class="p-vertical">${rp.split('').join('<br>')}</div></div></td>`;
+                } else {
+                    html += `<td></td>`;
+                }
             }
             html += `</tr>`;
         }
