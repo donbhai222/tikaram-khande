@@ -101,7 +101,7 @@
 <div class="modal-overlay" id="modalStep4"><div class="modal-content"><h3>Verification...</h3><div class="timer-display" id="timerBox">02:00</div><div id="successMsg" style="display:none; color:green; font-weight:bold; font-size:18px;">🎉 SUCCESS!</div></div></div>
 
 <script>
-    const CHART_URL = "https://docs.google.com/spreadsheets/d/1Oh9iZHT-QAhSTHDhP36qdqX38ZYJ-eivfr1VtyOExJA/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
+    const CHART_URL = "https://docs.google.com/spreadsheets/d/1C520K0VugNZ-eXQofjQxvo3_GZjQRRYdeRs-Sp3Ted4/gviz/tq?tqx=out:csv&sheet=Chart&v=" + Math.random();
     
     fetch(CHART_URL).then(r => r.text()).then(data => {
         const rows = data.split('\n').filter(r => r.trim() !== '').map(r => r.split(','));
